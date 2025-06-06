@@ -211,74 +211,37 @@
   <main id="app"></main>
 
   <!-- Template Login -->
-    <template id="logo-template">
-    <div class="logo-screen">
-      <div class="logo">🏐 VôleiPro</div>
-      <div class="subtext">Conforto e estilo em quadra</div>
-    </div>
-  </template>
-  
- <!-- Tela de login -->
   <template id="login-template">
-    <div class="container">
-      <h2>Login</h2>
-      <input type="text" id="user" placeholder="Usuário">
-      <input type="password" id="pass" placeholder="Senha">
-      <button onclick="handleLogin()">Entrar</button>
-      <button class="small-button" onclick="cadastrar()">Cadastrar</button>
-      <button class="small-button" onclick="recuperarSenha()">Recuperar Senha</button>
-      <div class="error" id="error-msg">Usuário ou senha inválidos</div>
-    </div>
+    <h2>Login</h2>
+    <input type="text" id="user" placeholder="Usuário" autocomplete="username" />
+    <input type="password" id="pass" placeholder="Senha" autocomplete="current-password" />
+    <button id="btnLogin">Entrar</button>
+    <div class="error" id="error-msg">Usuário ou senha inválidos</div>
   </template>
 
   <!-- Template Loja -->
   <template id="loja-template">
-    <div class="container">
-      <h2>Bem-vindo à Loja VôleiPro</h2>
-      <p>Produtos em breve...</p>
+    <div class="header-loja">
+      <h2>VôleiPro - Loja Oficial</h2>
+      <button class="logout" id="btnLogout">Sair</button>
+    </div>
+    <div class="banner-marca">
+      <div>Luxo e Conforto para seu jogo de vôlei</div>
+      <div style="font-size: 1.2rem; margin-top: 0.4rem; font-style: italic;">Tênis premium para quem joga com paixão</div>
+    </div>
+    <div class="produtos-grid">
+      <!-- Produtos vão ser inseridos por JS -->
     </div>
   </template>
 
   <script>
-    function loadTemplate(id) {
-      const template = document.getElementById(id);
-      document.body.innerHTML = '';
-      document.body.appendChild(template.content.cloneNode(true));
-    }
-
-    function handleLogin() {
-      const user = document.getElementById("user").value;
-      const pass = document.getElementById("pass").value;
-      const error = document.getElementById("error-msg");
-
-      if (user === "voleipro" && pass === "volei123") {
-        loadTemplate("loja-template");
-      } else {
-        error.style.display = "block";
-      }
-    }
-
-    function cadastrar() {
-      alert("Tela de cadastro em construção...");
-    }
-
-    function recuperarSenha() {
-      alert("Recuperação de senha em breve!");
-    }
-
-    // Mostrar logo por 2.5 segundos antes do login
-    loadTemplate('logo-template');
-    setTimeout(() => loadTemplate('login-template'), 2500);
-  </script>
-
-  <script>
     // Dados simulados de usuário
     const userDB = {
-      username: "voleiadmpro",
-      password: "12345"
-    }
+      username: "voleipro",
+      password: "volei123"
+    };
 
-    // Produtos - pode expandir e trocar as imagens
+    // Produtos - você pode expandir e trocar as imagens
     const produtos = [
       {
         nome: "VôleiPro Elite 1",
