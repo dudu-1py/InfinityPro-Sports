@@ -211,22 +211,35 @@
   <main id="app"></main>
 
   <!-- Template Login -->
+    <template id="logo-template">
+    <div class="logo-screen">
+      <div class="logo">🏐 VôleiPro</div>
+      <div class="subtext">Conforto e estilo em quadra</div>
+    </div>
+  </template>
+  
+ <!-- Tela de login -->
   <template id="login-template">
-    <h2>Login</h2>
-    <input type="text" id="user" placeholder="Usuário" autocomplete="username" />
-    <input type="password" id="pass" placeholder="Senha" autocomplete="current-password" />
-    <button id="btnLogin">Entrar</button>
-    <div class="error" id="error-msg">Usuário ou senha inválidos</div>
+    <div class="container">
+      <h2>Login</h2>
+      <input type="text" id="user" placeholder="Usuário">
+      <input type="password" id="pass" placeholder="Senha">
+      <button onclick="handleLogin()">Entrar</button>
+      <button class="small-button" onclick="cadastrar()">Cadastrar</button>
+      <button class="small-button" onclick="recuperarSenha()">Recuperar Senha</button>
+      <div class="error" id="error-msg">Usuário ou senha inválidos</div>
+    </div>
   </template>
 
   <!-- Template Loja -->
   <template id="loja-template">
     <div class="header-loja">
-      <h2>VôleiPro - Loja Oficial</h2>
-      <button class="logout" id="btnLogout">Sair</button>
+      <h2>Bem-vindo à Loja VôleiPro</h2>
+      <p>Loja-Oficial VoleiPro</p>
+      <button class="logout" id="btnLogout">Sair para tela de login</button>
     </div>
     <div class="banner-marca">
-      <div>Luxo e Conforto para seu jogo de vôlei</div>
+      <div>Luxo e Conforto para seu esporte!</div>
       <div style="font-size: 1.2rem; margin-top: 0.4rem; font-style: italic;">Tênis premium para quem joga com paixão</div>
     </div>
     <div class="produtos-grid">
@@ -237,11 +250,11 @@
   <script>
     // Dados simulados de usuário
     const userDB = {
-      username: "voleipro",
-      password: "volei123"
-    };
+      username: "voleiadmpro",
+      password: "12345"
+    }
 
-    // Produtos - você pode expandir e trocar as imagens
+    // Produtos - pode expandir e trocar as imagens
     const produtos = [
       {
         nome: "VôleiPro Elite 1",
