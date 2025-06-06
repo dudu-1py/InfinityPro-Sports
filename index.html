@@ -233,19 +233,43 @@
 
   <!-- Template Loja -->
   <template id="loja-template">
-    <div class="header-loja">
+    <div class="container">
       <h2>Bem-vindo à Loja VôleiPro</h2>
-      <p>Loja-Oficial VoleiPro</p>
-      <button class="logout" id="btnLogout">Sair para tela de login</button>
-    </div>
-    <div class="banner-marca">
-      <div>Luxo e Conforto para seu esporte!</div>
-      <div style="font-size: 1.2rem; margin-top: 0.4rem; font-style: italic;">Tênis premium para quem joga com paixão</div>
-    </div>
-    <div class="produtos-grid">
-      <!-- Produtos vão ser inseridos por JS -->
+      <p>Produtos em breve...</p>
     </div>
   </template>
+
+  <script>
+    function loadTemplate(id) {
+      const template = document.getElementById(id);
+      document.body.innerHTML = '';
+      document.body.appendChild(template.content.cloneNode(true));
+    }
+
+    function handleLogin() {
+      const user = document.getElementById("user").value;
+      const pass = document.getElementById("pass").value;
+      const error = document.getElementById("error-msg");
+
+      if (user === "voleipro" && pass === "volei123") {
+        loadTemplate("loja-template");
+      } else {
+        error.style.display = "block";
+      }
+    }
+
+    function cadastrar() {
+      alert("Tela de cadastro em construção...");
+    }
+
+    function recuperarSenha() {
+      alert("Recuperação de senha em breve!");
+    }
+
+    // Mostrar logo por 2.5 segundos antes do login
+    loadTemplate('logo-template');
+    setTimeout(() => loadTemplate('login-template'), 2500);
+  </script>
 
   <script>
     // Dados simulados de usuário
