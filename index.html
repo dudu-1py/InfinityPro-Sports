@@ -2,225 +2,326 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>App SPA - VôleiPro</title>
+  <title>VôleiPro - Loja Online</title>
   <style>
+    /* Reset e básicos */
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
     body {
-      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0a0a23, #151540);
+      color: #eee;
       min-height: 100vh;
-      background: linear-gradient(135deg, #667eea, #764ba2);
       display: flex;
       justify-content: center;
       align-items: center;
-      color: #fff;
-      animation: fadeIn 0.8s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .container {
-      background: rgba(255, 255, 255, 0.1);
       padding: 2rem;
+    }
+    #app {
+      width: 100%;
+      max-width: 900px;
+      background: rgba(15, 15, 40, 0.85);
       border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-      backdrop-filter: blur(10px);
+      padding: 2rem 3rem;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+      backdrop-filter: blur(15px);
+      animation: fadeInUp 0.8s ease forwards;
     }
 
-    input {
-      width: 90%;
-      padding: 0.8rem;
-      margin: 0.5rem 0;
-      border-radius: 10px;
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      } to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Estilo do login */
+    input, button {
+      border-radius: 12px;
       border: none;
       font-size: 1rem;
-    }
-
-    button {
+      padding: 0.9rem 1.1rem;
+      margin-top: 1.2rem;
       width: 100%;
-      padding: 0.8rem;
-      margin-top: 1rem;
-      background-color: #ff5f56;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      font-weight: 600;
+    }
+    input {
+      background-color: #222244;
+      color: #eee;
+      box-shadow: inset 0 0 8px #0a0a23;
+    }
+    input::placeholder {
+      color: #9999bb;
+    }
+    button {
+      background: linear-gradient(90deg, #d4af37, #b8860b);
+      color: #1a1a1a;
       cursor: pointer;
-      transition: background 0.3s;
+      box-shadow: 0 0 20px #d4af37;
     }
-
     button:hover {
-      background-color: #e0443e;
+      background: linear-gradient(90deg, #b8860b, #d4af37);
+      box-shadow: 0 0 30px #ffdb4d;
     }
-
     .error {
-      color: #ffdddd;
+      margin-top: 0.8rem;
       font-size: 0.9rem;
-      margin-top: 0.5rem;
+      color: #ff7777;
       display: none;
     }
 
-    .chat-box {
-      margin-top: 2rem;
-      height: 200px;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-      padding: 1rem;
-      color: #eee;
-      font-style: italic;
+    /* =======================
+      TEMPLATE LOJA (Produtos)
+    ========================= */
+    .header-loja {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #d4af37;
+      padding-bottom: 1rem;
     }
-
+    .header-loja h2 {
+      font-weight: 900;
+      font-size: 2.4rem;
+      letter-spacing: 2px;
+      color: #ffd700;
+      text-shadow: 0 0 10px #ffd700cc;
+    }
     .logout {
-      margin-top: 2rem;
-      background-color: #999;
-    }
-
-    /* Estilos da loja */
-    .container.loja {
-      max-width: 1200px;
-      width: 95%;
-    }
-
-    .grid-produtos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 2rem;
-      width: 100%;
-    }
-
-    .produto {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 1rem;
-      border-radius: 15px;
-      text-align: center;
-      transition: transform 0.3s ease, background 0.3s ease;
+      background: #b8860b;
+      padding: 0.6rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      color: #1a1a1a;
+      box-shadow: 0 0 15px #d4af37;
+      transition: background 0.3s ease;
+    }
+    .logout:hover {
+      background: #ffd700;
+      box-shadow: 0 0 25px #fff350;
     }
 
-    .produto:hover {
-      transform: scale(1.05);
-      background: rgba(255, 255, 255, 0.2);
-      box-shadow: 0 6px 25px rgba(0,0,0,0.35);
-    }
-
-    .produto img {
-      max-width: 100%;
-      border-radius: 10px;
-      margin-bottom: 1rem;
-      transition: transform 0.3s ease;
-    }
-
-    .produto:hover img {
-      transform: scale(1.1);
-    }
-
-    .produto h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
+    /* Banner da marca */
+    .banner-marca {
+      background: url('https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=900&q=80') center/cover no-repeat;
+      border-radius: 16px;
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
       color: #fff;
+      text-shadow: 0 0 20px #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      animation: bannerPulse 3s ease-in-out infinite alternate;
+    }
+    @keyframes bannerPulse {
+      0% { box-shadow: 0 0 15px #ffd700cc; }
+      100% { box-shadow: 0 0 30px #ffea0077; }
     }
 
-    .produto p {
-      font-size: 0.9rem;
-      color: #ddd;
-      margin-bottom: 0.5rem;
+    /* Grid de produtos */
+    .produtos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
+      gap: 2rem;
     }
 
-    .produto strong {
+    /* Card produto */
+    .card-produto {
+      background: linear-gradient(145deg, #1a1a2e, #111122);
+      border-radius: 16px;
+      box-shadow:
+        0 8px 15px rgba(255, 215, 0, 0.2),
+        inset 0 0 10px #d4af37;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 1rem;
+    }
+    .card-produto:hover {
+      transform: scale(1.05);
+      box-shadow:
+        0 15px 30px rgba(255, 215, 0, 0.6),
+        inset 0 0 20px #ffd700;
+    }
+    .card-produto img {
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(255, 255, 255, 0.1);
+      margin-bottom: 1rem;
+      transition: transform 0.4s ease;
+    }
+    .card-produto:hover img {
+      transform: scale(1.1) rotate(3deg);
+    }
+    .produto-nome {
+      font-weight: 700;
       font-size: 1.2rem;
-      color: #ffcc00;
+      color: #ffd700;
+      margin-bottom: 0.3rem;
     }
+    .produto-desc {
+      font-size: 0.9rem;
+      color: #ccc;
+      margin-bottom: 0.6rem;
+      min-height: 40px;
+    }
+    .produto-preco {
+      font-weight: 900;
+      font-size: 1.3rem;
+      color: #ffdb4d;
+      text-shadow: 0 0 10px #ffdb4dcc;
+      margin-bottom: 0.8rem;
+    }
+    .btn-comprar {
+      background: linear-gradient(90deg, #ffd700cc, #b8860b);
+      color: #1a1a1a;
+      padding: 0.7rem 1.2rem;
+      border-radius: 12px;
+      font-weight: 700;
+      box-shadow: 0 0 20px #d4af37;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .btn-comprar:hover {
+      background: linear-gradient(90deg, #b8860b, #ffd700cc);
+      box-shadow: 0 0 30px #fff350;
+    }
+
   </style>
 </head>
 <body>
+  <main id="app"></main>
 
-  <!-- Template de Login -->
+  <!-- Template Login -->
   <template id="login-template">
-    <div class="container">
-      <h2>Login</h2>
-      <input type="text" id="user" placeholder="Usuário" autocomplete="username" />
-      <input type="password" id="pass" placeholder="Senha" autocomplete="current-password" />
-      <button onclick="handleLogin()">Entrar</button>
-      <div class="error" id="error-msg">Usuário ou senha inválidos</div>
-    </div>
+    <h2>Login</h2>
+    <input type="text" id="user" placeholder="Usuário" autocomplete="username" />
+    <input type="password" id="pass" placeholder="Senha" autocomplete="current-password" />
+    <button id="btnLogin">Entrar</button>
+    <div class="error" id="error-msg">Usuário ou senha inválidos</div>
   </template>
 
-  <!-- Template do Painel (chat em construção) -->
-  <template id="painel-template">
-    <div class="container">
-      <h2>Bem-vindo ao Painel</h2>
-      <div class="chat-box">Chat em construção...</div>
-      <button class="logout" onclick="logout()">Sair</button>
-    </div>
-  </template>
-
-  <!-- Template da Loja -->
+  <!-- Template Loja -->
   <template id="loja-template">
-    <div class="container loja">
-      <h2 style="margin-bottom: 2rem;">Loja VôleiPro</h2>
-      <div class="grid-produtos">
-        <div class="produto" onclick="alert('Detalhes do produto em breve')">
-          <img src="https://via.placeholder.com/200x200.png?text=Tênis+VôleiPro+Elite" alt="Tênis VôleiPro Elite" />
-          <h3>Tênis VôleiPro Elite</h3>
-          <p>Alta performance nas quadras</p>
-          <strong>R$ 399,90</strong>
-        </div>
-        <div class="produto" onclick="alert('Detalhes do produto em breve')">
-          <img src="https://via.placeholder.com/200x200.png?text=Pro+Jump+Vôlei" alt="Tênis Pro Jump Vôlei" />
-          <h3>Pro Jump Vôlei</h3>
-          <p>Leveza e amortecimento</p>
-          <strong>R$ 359,90</strong>
-        </div>
-        <div class="produto" onclick="alert('Detalhes do produto em breve')">
-          <img src="https://via.placeholder.com/200x200.png?text=VôleiPro+Speed" alt="Tênis VôleiPro Speed" />
-          <h3>VôleiPro Speed</h3>
-          <p>Velocidade e controle</p>
-          <strong>R$ 429,90</strong>
-        </div>
-      </div>
-      <button class="logout" onclick="logout()">Sair</button>
+    <div class="header-loja">
+      <h2>VôleiPro - Loja Oficial</h2>
+      <button class="logout" id="btnLogout">Sair</button>
+    </div>
+    <div class="banner-marca">
+      <div>Luxo e Conforto para seu jogo de vôlei</div>
+      <div style="font-size: 1.2rem; margin-top: 0.4rem; font-style: italic;">Tênis premium para quem joga com paixão</div>
+    </div>
+    <div class="produtos-grid">
+      <!-- Produtos vão ser inseridos por JS -->
     </div>
   </template>
 
   <script>
-    // Função para carregar um template na <body>
-    function loadTemplate(templateId) {
-      const template = document.getElementById(templateId);
-      document.body.innerHTML = '';
-      document.body.appendChild(template.content.cloneNode(true));
-    }
+    // Dados simulados de usuário
+    const userDB = {
+      username: "voleipro",
+      password: "volei123"
+    };
 
-    // Exibir tela de login ao abrir
-    loadTemplate('login-template');
-
-    // Função de login
-    function handleLogin() {
-      const user = document.getElementById("user").value.trim();
-      const pass = document.getElementById("pass").value.trim();
-      const error = document.getElementById("error-msg");
-
-      if (user === "admin" && pass === "admin") {
-        loadTemplate('loja-template'); // vai para a loja
-      } else {
-        error.style.display = "block";
+    // Produtos - você pode expandir e trocar as imagens
+    const produtos = [
+      {
+        nome: "VôleiPro Elite 1",
+        desc: "Tecnologia de amortecimento avançada para máxima performance.",
+        preco: "R$ 499,90",
+        img: "https://images.unsplash.com/photo-1600185367279-7ec8d6d786bb?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        nome: "VôleiPro Comfort Max",
+        desc: "Design ergonômico com conforto para jogos longos.",
+        preco: "R$ 449,90",
+        img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        nome: "VôleiPro Speedster",
+        desc: "Leveza e agilidade em cada passo na quadra.",
+        preco: "R$ 529,90",
+        img: "https://images.unsplash.com/photo-1528701800489-0625b22ca1c4?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        nome: "VôleiPro Pro Grip",
+        desc: "Solado anti-derrapante para maior segurança.",
+        preco: "R$ 479,90",
+        img: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=400&q=80"
       }
+    ];
+
+    const app = document.getElementById('app');
+
+    // Função para renderizar login
+    function renderLogin() {
+      app.innerHTML = '';
+      const template = document.getElementById('login-template').content.cloneNode(true);
+      app.appendChild(template);
+
+      const btnLogin = document.getElementById('btnLogin');
+      const errorMsg = document.getElementById('error-msg');
+
+      btnLogin.onclick = () => {
+        const user = document.getElementById('user').value.trim();
+        const pass = document.getElementById('pass').value.trim();
+
+        if (user === userDB.username && pass === userDB.password) {
+          errorMsg.style.display = 'none';
+          renderLoja();
+        } else {
+          errorMsg.style.display = 'block';
+        }
+      };
     }
 
-    // Função para voltar ao login
-    function logout() {
-      loadTemplate('login-template');
+    // Função para renderizar a loja
+    function renderLoja() {
+      app.innerHTML = '';
+      const template = document.getElementById('loja-template').content.cloneNode(true);
+      app.appendChild(template);
+
+      const btnLogout = document.getElementById('btnLogout');
+      btnLogout.onclick = () => {
+        renderLogin();
+      };
+
+      // Renderiza os produtos no grid
+      const grid = app.querySelector('.produtos-grid');
+      produtos.forEach(produto => {
+        const card = document.createElement('div');
+        card.className = 'card-produto';
+        card.innerHTML = `
+          <img src="${produto.img}" alt="${produto.nome}" />
+          <div class="produto-nome">${produto.nome}</div>
+          <div class="produto-desc">${produto.desc}</div>
+          <div class="produto-preco">${produto.preco}</div>
+          <button class="btn-comprar" onclick="alert('Produto ${produto.nome} adicionado ao carrinho!')">Comprar</button>
+        `;
+        grid.appendChild(card);
+      });
     }
+
+    // Inicializa com tela de login
+    renderLogin();
   </script>
 </body>
 </html>
