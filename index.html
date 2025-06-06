@@ -1,102 +1,140 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Login Seguro</title>
+  <meta charset="UTF-8" />
+  <title>App SPA</title>
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
       height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #1d2b64, #f8cdda);
-      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      animation: fadeIn 0.8s ease;
     }
 
-    .login-container {
-      background-color: white;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
       padding: 2rem;
       border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      width: 300px;
-      text-align: center;
-      animation: fadeIn 0.8s ease-out;
-    }
-
-    .login-container h2 {
-      margin-bottom: 1rem;
-      color: #333;
-    }
-
-    .login-container input {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
       width: 90%;
-      padding: 0.7rem;
+      max-width: 400px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    input {
+      width: 90%;
+      padding: 0.8rem;
       margin: 0.5rem 0;
-      border: 1px solid #ccc;
       border-radius: 10px;
+      border: none;
       font-size: 1rem;
     }
 
-    .login-container button {
+    button {
       width: 100%;
-      padding: 0.7rem;
+      padding: 0.8rem;
       margin-top: 1rem;
-      background-color: #1d2b64;
+      background-color: #ff5f56;
       color: white;
       border: none;
       border-radius: 10px;
-      font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background 0.3s;
     }
 
-    .login-container button:hover {
-      background-color: #16204a;
+    button:hover {
+      background-color: #e0443e;
     }
 
     .error {
-      color: red;
+      color: #ffdddd;
+      font-size: 0.9rem;
       margin-top: 0.5rem;
       display: none;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .chat-box {
+      margin-top: 2rem;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 1rem;
+      color: #eee;
+      font-style: italic;
+    }
+
+    .logout {
+      margin-top: 2rem;
+      background-color: #999;
     }
   </style>
 </head>
 <body>
 
-  <!-- TEMPLATE DO FORMULÁRIO DE LOGIN -->
+  <!-- Template de Login -->
   <template id="login-template">
-    <div class="login-container">
-      <h2>Entrar</h2>
-      <input id="user" type="text" placeholder="Usuário">
-      <input id="pass" type="password" placeholder="Senha">
-      <button onclick="login()">Login</button>
-      <div class="error" id="error">Usuário ou senha inválidos.</div>
+    <div class="container">
+      <h2>Login</h2>
+      <input type="text" id="user" placeholder="Usuário">
+      <input type="password" id="pass" placeholder="Senha">
+      <button onclick="handleLogin()">Entrar</button>
+      <div class="error" id="error-msg">Usuário ou senha inválidos</div>
     </div>
   </template>
 
-  <!-- SCRIPT QUE INSERE O TEMPLATE NA PÁGINA -->
-  <script>
-    const tpl = document.getElementById("login-template");
-    document.body.appendChild(tpl.content.cloneNode(true));
+  <!-- Template do Painel -->
+  <template id="painel-template">
+    <div class="container">
+      <h2>Bem-vindo ao Painel</h2>
+      <div class="chat-box">Chat em construção...</div>
+      <button class="logout" onclick="logout()">Sair</button>
+    </div>
+  </template>
 
-    function login() {
+  <script>
+    // Função para carregar um template na <body>
+    function loadTemplate(templateId) {
+      const template = document.getElementById(templateId);
+      document.body.innerHTML = '';
+      document.body.appendChild(template.content.cloneNode(true));
+    }
+
+    // Exibir tela de login ao abrir
+    loadTemplate('login-template');
+
+    // Função de login
+    function handleLogin() {
       const user = document.getElementById("user").value;
       const pass = document.getElementById("pass").value;
-      const errorMsg = document.getElementById("error");
+      const error = document.getElementById("error-msg");
 
       if (user === "admin" && pass === "admin") {
-        alert("Login bem-sucedido!");
-        // Redirecionar para o painel ou carregar outro template
+        loadTemplate('painel-template');
       } else {
-        errorMsg.style.display = "block";
+        error.style.display = "block";
       }
+    }
+
+    // Função para voltar ao login
+    function logout() {
+      loadTemplate('login-template');
     }
   </script>
 
