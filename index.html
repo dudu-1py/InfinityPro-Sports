@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Seguro</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #1d2b64, #f8cdda);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .login-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      text-align: center;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    .login-container h2 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .login-container input {
+      width: 90%;
+      padding: 0.7rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 1rem;
+      background-color: #1d2b64;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .login-container button:hover {
+      background-color: #16204a;
+    }
+
+    .error {
+      color: red;
+      margin-top: 0.5rem;
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TEMPLATE DO FORMULÁRIO DE LOGIN -->
+  <template id="login-template">
+    <div class="login-container">
+      <h2>Entrar</h2>
+      <input id="user" type="text" placeholder="Usuário">
+      <input id="pass" type="password" placeholder="Senha">
+      <button onclick="login()">Login</button>
+      <div class="error" id="error">Usuário ou senha inválidos.</div>
+    </div>
+  </template>
+
+  <!-- SCRIPT QUE INSERE O TEMPLATE NA PÁGINA -->
+  <script>
+    const tpl = document.getElementById("login-template");
+    document.body.appendChild(tpl.content.cloneNode(true));
+
+    function login() {
+      const user = document.getElementById("user").value;
+      const pass = document.getElementById("pass").value;
+      const errorMsg = document.getElementById("error");
+
+      if (user === "admin" && pass === "admin") {
+        alert("Login bem-sucedido!");
+        // Redirecionar para o painel ou carregar outro template
+      } else {
+        errorMsg.style.display = "block";
+      }
+    }
+  </script>
+
+</body>
+</html>
