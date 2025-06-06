@@ -32,7 +32,7 @@
       border-radius: 20px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
       width: 90%;
-      max-width: 800px;
+      max-width: 400px;
       text-align: center;
       backdrop-filter: blur(10px);
     }
@@ -85,69 +85,63 @@
       background-color: #999;
     }
 
-    .banner {
-      background: linear-gradient(135deg, #ffafbd, #ffc3a0);
-      padding: 1rem;
-      border-radius: 15px;
-      margin: 1.5rem 0;
-      animation: slideIn 0.8s ease-in-out;
+    /* Loja */
+    .loja-container {
+      width: 100%;
+      max-width: 1100px;
+      padding: 2rem;
+    }
+
+    .marca-banner {
+      font-size: 2rem;
+      margin-bottom: 2rem;
       text-align: center;
-      color: #333;
       font-weight: bold;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.4);
     }
 
     .produtos-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
+      gap: 2rem;
     }
 
-    .card {
+    .produto-card {
       background: white;
-      color: #222;
-      border-radius: 15px;
+      border-radius: 20px;
       padding: 1rem;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
       text-align: center;
+      color: #333;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      animation: fadeInUp 0.7s ease;
     }
 
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    .produto-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
     }
 
-    .card img {
-      width: 100%;
-      border-radius: 10px;
+    .produto-card img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-bottom: 1rem;
     }
 
-    .card button {
+    .produto-card h3 {
+      margin: 0.5rem 0;
+      font-size: 1.2rem;
+    }
+
+    .produto-card p {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .produto-card button {
       margin-top: 1rem;
-      background-color: #ff5f56;
-      color: white;
-      padding: 0.6rem 1rem;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-
-    .card button:hover {
-      background-color: #e0443e;
-    }
-
-    @keyframes slideIn {
-      from { transform: translateY(-20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
+      background-color: #28a745;
+      width: auto;
+      padding: 0.5rem 1rem;
     }
   </style>
 </head>
@@ -164,44 +158,30 @@
     </div>
   </template>
 
-  <!-- Template do Painel (não será usado agora, deixado como exemplo) -->
-  <template id="painel-template">
-    <div class="container">
-      <h2>Bem-vindo ao Painel</h2>
-      <div class="chat-box">Chat em construção...</div>
-      <button class="logout" onclick="logout()">Sair</button>
-    </div>
-  </template>
-
   <!-- Template da Loja -->
   <template id="loja-template">
-    <div class="container">
-      <h2>Loja Oficial - Tênis de Vôlei</h2>
-
-      <!-- Propaganda -->
-      <div class="banner">
-        <h3>Potência nos Saltos, Controle nos Movimentos</h3>
-        <p>Conheça a nova coleção da <strong>Sua Marca</strong> — os tênis que dominam as quadras!</p>
-      </div>
-
-      <!-- Grid de Produtos -->
+    <div class="loja-container">
+      <div class="marca-banner">🏐 VôleiPro — Tênis de Vôlei de Alta Performance</div>
       <div class="produtos-grid">
-        <div class="card">
-          <img src="https://via.placeholder.com/200x200?text=Tênis+1" alt="Tênis Vôlei 1">
-          <h4>Tênis Vôlei Pro 1</h4>
-          <p>Alta absorção de impacto e estabilidade.</p>
+        <div class="produto-card">
+          <img src="https://via.placeholder.com/200x150?text=Tenis+1" alt="Tênis 1">
+          <h3>Tênis VôleiPro Speed</h3>
+          <p>Leveza, amortecimento e aderência de alto nível.</p>
           <button>Comprar</button>
         </div>
-
-        <div class="card">
-          <img src="https://via.placeholder.com/200x200?text=Tênis+2" alt="Tênis Vôlei 2">
-          <h4>Tênis Vôlei Pro 2</h4>
-          <p>Leveza e tração superior nas jogadas.</p>
+        <div class="produto-card">
+          <img src="https://via.placeholder.com/200x150?text=Tenis+2" alt="Tênis 2">
+          <h3>Tênis VôleiPro Elite</h3>
+          <p>Ideal para quadras rápidas. Design profissional.</p>
+          <button>Comprar</button>
+        </div>
+        <div class="produto-card">
+          <img src="https://via.placeholder.com/200x150?text=Tenis+3" alt="Tênis 3">
+          <h3>Tênis VôleiPro Storm</h3>
+          <p>Resistência e suporte para jogos intensos.</p>
           <button>Comprar</button>
         </div>
       </div>
-
-      <button class="logout" onclick="logout()">Sair</button>
     </div>
   </template>
 
@@ -212,7 +192,6 @@
       document.body.appendChild(template.content.cloneNode(true));
     }
 
-    // Carregar tela de login ao iniciar
     loadTemplate('login-template');
 
     function handleLogin() {
