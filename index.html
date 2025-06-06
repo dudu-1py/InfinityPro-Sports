@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>VôleiPro - Loja Online</title>
   <style>
-    /* Reset e básicos */
     * {
       box-sizing: border-box;
       margin: 0; padding: 0;
@@ -90,9 +89,14 @@
       color: #ffd700;
       text-shadow: 0 0 10px #ffd700cc;
     }
-    .logout {
+    .user-actions {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+    }
+    .logout, .btn-config, .btn-conta {
       background: #b8860b;
-      padding: 0.6rem 1.5rem;
+      padding: 0.6rem 1.2rem;
       border-radius: 12px;
       font-weight: 700;
       cursor: pointer;
@@ -100,7 +104,7 @@
       box-shadow: 0 0 15px #d4af37;
       transition: background 0.3s ease;
     }
-    .logout:hover {
+    .logout:hover, .btn-config:hover, .btn-conta:hover {
       background: #ffd700;
       box-shadow: 0 0 25px #fff350;
     }
@@ -207,7 +211,11 @@
   <template id="loja-template">
     <div class="header-loja">
       <h2>VôleiPro - Loja Oficial</h2>
-      <button class="logout" id="btnLogout">Sair</button>
+      <div class="user-actions">
+        <button class="btn-conta">Conta</button>
+        <button class="btn-config">Configurações</button>
+        <button class="logout" id="btnLogout">Sair</button>
+      </div>
     </div>
     <div class="banner-marca">
       <div>Luxo e Conforto para seu jogo de vôlei</div>
@@ -219,28 +227,22 @@
     const userDB = { username: "voleipro", password: "volei123" };
     const produtos = [
       {
-        nome: "Tênis Olympikus Quadra BR1 - Unissex",
-        desc: "Tecnologia de amortecimento avançada para máxima performance.",
+        nome: "Tênis VôleiPro Elite",
+        desc: "Performance e estilo com tecnologia de amortecimento.",
         preco: "R$ 499,90",
-        img: "https://imgcentauro-a.akamaihd.net/768x768/M16POL03A1.jpg"
+        img: "https://images.unsplash.com/photo-1618354691319-9b59b76e7900?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60"
       },
       {
-        nome: "Tênis Nike Air Zoom G.T. - Masculino",
-        desc: "Design ergonômico com conforto para jogos longos.",
-        preco: "R$ 749,90",
-        img: "https://imgcentauro-a.akamaihd.net/768x768/M16GEQCCA1.jpg"
+        nome: "Tênis VôleiPro Impact",
+        desc: "Máxima absorção de impacto para saltos explosivos.",
+        preco: "R$ 399,90",
+        img: "https://images.unsplash.com/photo-1568254183824-06a9d42fdc6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60"
       },
       {
-        nome: "VôleiPro Speedster",
-        desc: "Leveza e agilidade em cada passo na quadra.",
-        preco: "R$ 549,90",
-        img: "https://imgcentauro-a.akamaihd.net/360x360/M16RED04A1.jpg"
-      },
-      {
-        nome: "Tênis Olympikus Qu4dra BR1 Masculino Pro Grip",
-        desc: "Solado anti-derrapante para maior estabilidade.",
-        preco: "R$ 679,90",
-        img: "https://imgcentauro-a.akamaihd.net/360x360/99103102A9.jpg"
+        nome: "Tênis VôleiPro Clássico",
+        desc: "Design atemporal com conforto garantido.",
+        preco: "R$ 329,90",
+        img: "https://images.unsplash.com/photo-1593032457869-711f1e6fb4f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60"
       }
     ];
 
@@ -278,7 +280,7 @@
         `;
         grid.appendChild(card);
       });
-      document.getElementById('btnLogout').onclick = renderLogin;
+      document.getElementById('btnLogout').onclick = () => renderLogin();
     }
 
     renderLogin();
