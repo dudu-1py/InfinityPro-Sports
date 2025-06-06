@@ -40,7 +40,6 @@
       }
     }
 
-    /* Estilo do login */
     input, button {
       border-radius: 12px;
       border: none;
@@ -76,9 +75,6 @@
       display: none;
     }
 
-    /* =======================
-      TEMPLATE LOJA (Produtos)
-    ========================= */
     .header-loja {
       display: flex;
       justify-content: space-between;
@@ -109,9 +105,8 @@
       box-shadow: 0 0 25px #fff350;
     }
 
-    /* Banner da marca */
     .banner-marca {
-      background: url('https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=900&q=80') center/cover no-repeat;
+      background: url('https://www.otempo.com.br/content/dam/otempo/editorias/sports/volei/2024/2/sports-bola-de-volei-na-beira-da-quadra-limpa-1713416599.jpeg') center/cover no-repeat;
       border-radius: 16px;
       padding: 3rem 2rem;
       margin-bottom: 2rem;
@@ -131,20 +126,16 @@
       100% { box-shadow: 0 0 30px #ffea0077; }
     }
 
-    /* Grid de produtos */
     .produtos-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
       gap: 2rem;
     }
 
-    /* Card produto */
     .card-produto {
       background: linear-gradient(145deg, #1a1a2e, #111122);
       border-radius: 16px;
-      box-shadow:
-        0 8px 15px rgba(255, 215, 0, 0.2),
-        inset 0 0 10px #d4af37;
+      box-shadow: 0 8px 15px rgba(255, 215, 0, 0.2), inset 0 0 10px #d4af37;
       overflow: hidden;
       cursor: pointer;
       transition: transform 0.4s ease, box-shadow 0.4s ease;
@@ -156,9 +147,7 @@
     }
     .card-produto:hover {
       transform: scale(1.05);
-      box-shadow:
-        0 15px 30px rgba(255, 215, 0, 0.6),
-        inset 0 0 20px #ffd700;
+      box-shadow: 0 15px 30px rgba(255, 215, 0, 0.6), inset 0 0 20px #ffd700;
     }
     .card-produto img {
       max-width: 100%;
@@ -204,13 +193,10 @@
       background: linear-gradient(90deg, #b8860b, #ffd700cc);
       box-shadow: 0 0 30px #fff350;
     }
-
   </style>
 </head>
 <body>
   <main id="app"></main>
-
-  <!-- Template Login -->
   <template id="login-template">
     <h2>Login</h2>
     <input type="text" id="user" placeholder="Usuário" autocomplete="username" />
@@ -218,8 +204,6 @@
     <button id="btnLogin">Entrar</button>
     <div class="error" id="error-msg">Usuário ou senha inválidos</div>
   </template>
-
-  <!-- Template Loja -->
   <template id="loja-template">
     <div class="header-loja">
       <h2>VôleiPro - Loja Oficial</h2>
@@ -229,98 +213,74 @@
       <div>Luxo e Conforto para seu jogo de vôlei</div>
       <div style="font-size: 1.2rem; margin-top: 0.4rem; font-style: italic;">Tênis premium para quem joga com paixão</div>
     </div>
-    <div class="produtos-grid">
-      <!-- Produtos vão ser inseridos por JS -->
-    </div>
+    <div class="produtos-grid"></div>
   </template>
-
   <script>
-    // Dados simulados de usuário
-    const userDB = {
-      username: "voleipro",
-      password: "volei123"
-    };
-
-    // Produtos - você pode expandir e trocar as imagens
+    const userDB = { username: "voleipro", password: "volei123" };
     const produtos = [
       {
-        nome: "VôleiPro Elite 1",
+        nome: "Tênis Olympikus Quadra BR1 - Unissex",
         desc: "Tecnologia de amortecimento avançada para máxima performance.",
         preco: "R$ 499,90",
-        img: "https://images.unsplash.com/photo-1600185367279-7ec8d6d786bb?auto=format&fit=crop&w=400&q=80"
+        img: "https://imgcentauro-a.akamaihd.net/768x768/M16POL03A1.jpg"
       },
       {
-        nome: "VôleiPro Comfort Max",
+        nome: "Tênis Nike Air Zoom G.T. - Masculino",
         desc: "Design ergonômico com conforto para jogos longos.",
-        preco: "R$ 449,90",
-        img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80"
+        preco: "R$ 749,90",
+        img: "https://imgcentauro-a.akamaihd.net/768x768/M16GEQCCA1.jpg"
       },
       {
         nome: "VôleiPro Speedster",
         desc: "Leveza e agilidade em cada passo na quadra.",
-        preco: "R$ 529,90",
-        img: "https://images.unsplash.com/photo-1528701800489-0625b22ca1c4?auto=format&fit=crop&w=400&q=80"
+        preco: "R$ 549,90",
+        img: "https://imgcentauro-a.akamaihd.net/360x360/M16RED04A1.jpg"
       },
       {
-        nome: "VôleiPro Pro Grip",
-        desc: "Solado anti-derrapante para maior segurança.",
-        preco: "R$ 479,90",
-        img: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=400&q=80"
+        nome: "Tênis Olympikus Qu4dra BR1 Masculino Pro Grip",
+        desc: "Solado anti-derrapante para maior estabilidade.",
+        preco: "R$ 679,90",
+        img: "https://imgcentauro-a.akamaihd.net/360x360/99103102A9.jpg"
       }
     ];
 
     const app = document.getElementById('app');
 
-    // Função para renderizar login
     function renderLogin() {
       app.innerHTML = '';
       const template = document.getElementById('login-template').content.cloneNode(true);
       app.appendChild(template);
-
-      const btnLogin = document.getElementById('btnLogin');
-      const errorMsg = document.getElementById('error-msg');
-
-      btnLogin.onclick = () => {
+      document.getElementById('btnLogin').onclick = () => {
         const user = document.getElementById('user').value.trim();
         const pass = document.getElementById('pass').value.trim();
-
         if (user === userDB.username && pass === userDB.password) {
-          errorMsg.style.display = 'none';
           renderLoja();
         } else {
-          errorMsg.style.display = 'block';
+          document.getElementById('error-msg').style.display = 'block';
         }
       };
     }
 
-    // Função para renderizar a loja
     function renderLoja() {
       app.innerHTML = '';
       const template = document.getElementById('loja-template').content.cloneNode(true);
       app.appendChild(template);
-
-      const btnLogout = document.getElementById('btnLogout');
-      btnLogout.onclick = () => {
-        renderLogin();
-      };
-
-      // Renderiza os produtos no grid
-      const grid = app.querySelector('.produtos-grid');
-      produtos.forEach(produto => {
+      const grid = document.querySelector('.produtos-grid');
+      produtos.forEach(p => {
         const card = document.createElement('div');
         card.className = 'card-produto';
         card.innerHTML = `
-          <img src="${produto.img}" alt="${produto.nome}" />
-          <div class="produto-nome">${produto.nome}</div>
-          <div class="produto-desc">${produto.desc}</div>
-          <div class="produto-preco">${produto.preco}</div>
-          <button class="btn-comprar" onclick="alert('Produto ${produto.nome} adicionado ao carrinho!')">Comprar</button>
+          <img src="${p.img}" alt="${p.nome}" />
+          <div class="produto-nome">${p.nome}</div>
+          <div class="produto-desc">${p.desc}</div>
+          <div class="produto-preco">${p.preco}</div>
+          <button class="btn-comprar">Comprar</button>
         `;
         grid.appendChild(card);
       });
+      document.getElementById('btnLogout').onclick = renderLogin;
     }
 
-    // Inicializa com tela de login
     renderLogin();
   </script>
 </body>
