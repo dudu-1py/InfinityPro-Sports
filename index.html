@@ -616,6 +616,10 @@
       };
     }
 
+    // Adicione uma variável global para controlar o retorno após login
+    let acaoAposLogin = null;
+
+    // Altere a função renderLoja para só pedir login ao tentar comprar
     function renderLoja() {
       app.innerHTML = '';
       const template = document.getElementById('loja-template').content.cloneNode(true);
@@ -632,6 +636,20 @@
           <button class="btn-comprar">Comprar</button>
         `;
         grid.appendChild(card);
+
+        // Botão comprar: verifica login
+        card.querySelector('.btn-comprar').onclick = () => {
+          const user = sessionStorage.getItem('usuarioLogado');
+          if (!user) {
+            acaoAposLogin = () => {
+              // Após login, simula compra (pode mostrar notificação ou modal)
+              alert('Compra realizada com sucesso!');
+            };
+            abrirLoginModal();
+          } else {
+            alert('Compra realizada com sucesso!');
+          }
+        };
       });
 
       const usuarios = getUsuariosDB();
@@ -640,7 +658,7 @@
 
       document.getElementById('btnLogout').onclick = () => {
         sessionStorage.removeItem('usuarioLogado');
-        renderLogin();
+        renderLoja();
       };
       document.getElementById('btnConfig').onclick = () => {
         if (usuarioLogado) {
@@ -654,7 +672,95 @@
       };
     }
 
-    renderLogin();
+    // Função para abrir o login como modal
+    function abrirLoginModal() {
+      // Cria overlay
+      let overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.top = 0;
+      overlay.style.left = 0;
+      overlay.style.width = '100vw';
+      overlay.style.height = '100vh';
+      overlay.style.background = 'rgba(10,10,30,0.55)';
+      overlay.style.zIndex = 99999;
+      overlay.style.display = 'flex';
+      overlay.style.alignItems = 'center';
+      overlay.style.justifyContent = 'center';
+
+      // Cria modal
+      let modal = document.createElement('div');
+      modal.style.background = '#fff';
+      modal.style.borderRadius = '18px';
+      modal.style.width = '100%';
+      modal.style.maxWidth = '370px';
+      modal.style.boxShadow = '0 8px 32px 0 rgba(34,34,34,0.18)';
+      modal.style.color = '#111';
+      modal.style.padding = '2.2rem 2.2rem 2.2rem 2.2rem';
+      modal.style.position = 'relative';
+      modal.style.animation = 'fadeInUp 0.5s';
+
+      // Conteúdo do login (igual ao template)
+      modal.innerHTML = `
+        <div style="text-align:center; margin-bottom: 1.5rem;">
+          <span style="font-size:2.2rem; font-weight:900; color:#111; letter-spacing:2px; text-shadow:none;">INFINITYPRO SPORTS</span>
+        </div>
+        <h2>Faça Login</h2>
+        <input type="text" id="modalUser" placeholder="Usuário" autocomplete="username" style="width:100%;margin-bottom:0.7rem;" />
+        <div class="senha-container">
+          <input type="password" id="modalPass" placeholder="Senha" autocomplete="current-password" style="width:100%;" />
+          <button type="button" id="toggleModalPass" aria-label="Mostrar senha">👁️</button>
+        </div>
+        <button id="btnModalLogin" style="margin-top:1.2rem;">Entrar</button>
+        <button id="btnModalFechar" style="margin-top:0.7rem;background:#ffd700;color:#181840;">Cancelar</button>
+        <div class="error" id="modal-error-msg" style="display:none;">Usuário ou senha inválidos</div>
+      `;
+
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+
+      // Olho para visualizar senha
+      const passInput = modal.querySelector('#modalPass');
+      const toggleBtn = modal.querySelector('#toggleModalPass');
+      if (toggleBtn) {
+        toggleBtn.onclick = () => {
+          if (passInput.type === "password") {
+            passInput.type = "text";
+            toggleBtn.textContent = "🙈";
+          } else {
+            passInput.type = "password";
+            toggleBtn.textContent = "👁️";
+          }
+        };
+      }
+
+      // Login
+      modal.querySelector('#btnModalLogin').onclick = () => {
+        const user = modal.querySelector('#modalUser').value.trim();
+        const pass = modal.querySelector('#modalPass').value.trim();
+        const usuarios = getUsuariosDB();
+        const achou = usuarios.find(u => u.username === user && u.password === pass);
+        if (achou) {
+          sessionStorage.setItem('usuarioLogado', achou.username);
+          document.body.removeChild(overlay);
+          if (typeof acaoAposLogin === 'function') {
+            acaoAposLogin();
+            acaoAposLogin = null;
+          }
+          renderLoja();
+        } else {
+          modal.querySelector('#modal-error-msg').style.display = 'block';
+        }
+      };
+
+      // Fechar modal
+      modal.querySelector('#btnModalFechar').onclick = () => {
+        document.body.removeChild(overlay);
+        acaoAposLogin = null;
+      };
+    }
+
+    // Ao iniciar, renderize a loja (sem login obrigatório)
+    renderLoja();
   </script>
 </body>
 </html>
