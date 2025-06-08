@@ -11,22 +11,23 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
-      background: linear-gradient(135deg, #0a0a23, #151540);
-      color: #eee;
+      background: #f5f5f5;
+      color: #111;
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: 2rem;
+      align-items: flex-start;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     #app {
       width: 100%;
-      max-width: 900px;
-      background: rgba(15, 15, 40, 0.85);
-      border-radius: 20px;
-      padding: 2rem 3rem;
-      box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
-      backdrop-filter: blur(15px);
+      max-width: 980px;
+      background: #fff;
+      border-radius: 0 0 24px 24px;
+      padding: 2.5rem 3rem 2.5rem 3rem;
+      box-shadow: 0 8px 32px 0 rgba(34,34,34,0.10), 0 1.5px 0 #e5e5e5;
+      margin-top: 48px;
       animation: fadeInUp 0.8s ease forwards;
     }
 
@@ -51,22 +52,16 @@
       font-weight: 600;
     } 
     input {
-      background-color: #222244;
-      color: #eee;
-      box-shadow: inset 0 0 8px #0a0a23;
+      background-color: #f5f5f5;
+      color: #111;
+      box-shadow: none;
+      border: 1px solid #e5e5e5;
     }
     input::placeholder {
-      color: #9999bb;
+      color: #bbb;
     }
     button {
-      background: linear-gradient(90deg, #d4af37, #b8860b);
-      color: #1a1a1a;
-      cursor: pointer;
-      box-shadow: 0 0 20px #d4af37;
-    }
-    button:hover {
-      background: linear-gradient(90deg, #b8860b, #d4af37);
-      box-shadow: 0 0 30px #ffdb4d;
+      font-family: inherit;
     }
     .error {
       margin-top: 0.8rem;
@@ -76,135 +71,141 @@
     }
 
     .header-loja {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      background: #fff;
+      border-radius: 24px 24px 0 0;
+      box-shadow: 0 2px 8px 0 rgba(34,34,34,0.06);
+      padding: 1.5rem 2rem 1.2rem 2rem;
       margin-bottom: 2rem;
-      border-bottom: 2px solid #d4af37;
-      padding-bottom: 1rem;
+      border-bottom: 1.5px solid #e5e5e5;
     }
     .header-loja h2 {
       font-weight: 900;
-      font-size: 2.4rem;
-      letter-spacing: 2px;
-      color: #ffd700;
-      text-shadow: 0 0 10px #ffd700cc;
+      font-size: 2.2rem;
+      letter-spacing: 1.5px;
+      color: #111;
+      text-shadow: none;
+    }
+    .botoes-header button {
+      background: #f5f5f5;
+      color: #111;
+      border: 1px solid #e5e5e5;
+      box-shadow: none;
+      font-weight: 600;
+      padding: 0.6rem 1.3rem;
+      border-radius: 8px;
+      transition: background 0.2s, border 0.2s;
+    }
+    .botoes-header button:hover {
+      background: #111;
+      color: #fff;
+      border: 1px solid #111;
     }
     .logout {
-      background: #b8860b;
-      padding: 0.6rem 1.5rem;
-      border-radius: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      color: #1a1a1a;
-      box-shadow: 0 0 15px #d4af37;
-      transition: background 0.3s ease;
+      background: #111 !important;
+      color: #fff !important;
+      border: 1px solid #111 !important;
+      box-shadow: none !important;
     }
     .logout:hover {
-      background: #ffd700;
-      box-shadow: 0 0 25px #fff350;
+      background: #e5e5e5 !important;
+      color: #111 !important;
+      border: 1px solid #e5e5e5 !important;
     }
 
-    .banner-marca {
-      background: url('https://www.otempo.com.br/content/dam/otempo/editorias/sports/volei/2024/2/sports-bola-de-volei-na-beira-da-quadra-limpa-1713416599.jpeg') center/cover no-repeat;
+    .banner-marca { 
+      background: url(https://www.otempo.com.br/content/dam/otempo/editorias/sports/volei/2024/2/sports-bola-de-volei-na-beira-da-quadra-limpa-1713416599.jpeg) 
+        center / cover no-repeat;
       border-radius: 16px;
-      padding: 3rem 2rem;
-      margin-bottom: 2rem;
+      padding: 3.5rem 2vw 2.5rem 2vw;
+      box-sizing: border-box;
+      margin: 0 0 2rem 0;
       color: #fff;
-      text-shadow: 0 0 20px #000;
+      text-shadow: 0 2px 16px #000, 0 0 8px #000;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      text-align: center;
       font-weight: 700;
       font-size: 1.8rem;
       letter-spacing: 2px;
-      animation: bannerPulse 3s ease-in-out infinite alternate;
-    }
-    @keyframes bannerPulse {
-      0% { box-shadow: 0 0 15px #ffd700cc; }
-      100% { box-shadow: 0 0 30px #ffea0077; }
+      position: relative;
+      min-height: 220px;
+      box-shadow: 0 2px 12px 0 rgba(34,34,34,0.10);
     }
 
     .produtos-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
+      grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
       gap: 2rem;
     }
 
     .card-produto {
-      background: linear-gradient(145deg, #1a1a2e, #111122);
+      background: #fafafa;
       border-radius: 16px;
-      box-shadow: 0 8px 15px rgba(255, 215, 0, 0.2), inset 0 0 10px #d4af37;
+      box-shadow: 0 2px 12px 0 rgba(34,34,34,0.06);
       overflow: hidden;
       cursor: pointer;
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      transition: transform 0.3s, box-shadow 0.3s;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding: 1rem;
+      padding: 1.2rem 1rem 1.5rem 1rem;
+      border: 1px solid #e5e5e5;
     }
     .card-produto:hover {
-      transform: scale(1.05);
-      box-shadow: 0 15px 30px rgba(255, 215, 0, 0.6), inset 0 0 20px #ffd700;
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 8px 32px 0 rgba(34,34,34,0.12);
+      border: 1.5px solid #111;
     }
     .card-produto img {
-      max-width: 99%;
-      max-height: 145px;
-      border-radius: 12px;
-      box-shadow: 0 6px 15px rgba(255, 255, 255, 0.1);
+      max-width: 98%;
+      max-height: 140px;
+      border-radius: 10px;
+      box-shadow: none;
       margin-bottom: 1rem;
-      transition: transform 0.4s ease;
       background: #fff;
-      filter: contrast(1.08) brightness(1.08);
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
+      filter: none;
       object-fit: contain;
     }
-    .card-produto:hover img {
-      transform: scale(1.06) rotate(0.7deg);
-    }
-    .produto-nome {
+    .card-produto .produto-nome {
       font-weight: 700;
-      font-size: 1.2rem;
-      color: #ffd700;
+      font-size: 1.1rem;
+      color: #111;
       margin-bottom: 0.3rem;
     }
-    .produto-desc {
-      font-size: 0.9rem;
-      color: #ccc;
+    .card-produto .produto-desc {
+      font-size: 0.95rem;
+      color: #555;
       margin-bottom: 0.6rem;
       min-height: 40px;
     }
     .card-produto .produto-preco {
       font-weight: 900;
-      font-size: 1.3rem;
-      color: #ffdb4d;
-      text-shadow: 0 0 10px #ffdb4dcc;
-      margin-bottom: 0.5rem; /* reduzido para aproximar do botão */
+      font-size: 1.2rem;
+      color: #111;
+      margin-bottom: 0.5rem;
       margin-top: 0.2rem;
       display: block;
     }
     .btn-comprar {
-      background: linear-gradient(90deg, #ffd700cc, #b8860b);
-      color: #1a1a1a;
+      background: #111;
+      color: #fff;
       padding: 0.7rem 1.2rem;
-      border-radius: 12px;
+      border-radius: 8px;
       font-weight: 700;
-      box-shadow: 0 0 20px #d4af37;
       border: none;
       cursor: pointer;
-      transition: background 0.3s ease;
-      margin-top: auto; /* Alinha o botão na base do card */
+      transition: background 0.2s;
+      margin-top: auto;
       width: 80%;
       align-self: center;
       display: block;
     }
     .btn-comprar:hover {
-      background: linear-gradient(90deg, #b8860b, #ffd700cc);
-      box-shadow: 0 0 30px #fff350;
+      background: #e5e5e5;
+      color: #111;
     }
     .senha-container {
       position: relative;
@@ -308,16 +309,18 @@
   </template>
   <template id="loja-template">
     <div class="header-loja">
-      <h2>VôleiPro - Loja Oficial</h2>
+      <h2>VôleiPro Loja - Oficial</h2>
       <div class="botoes-header">
-        <button class="btn-conta" id="btnConta">Conta</button>
-        <button class="btn-config" id="btnConfig">Configurações</button>
+        <button class="btn-perfil" id="btnPerfil">👤  </button>
+        <button class="btn-config" id="btnConfig">⚙️  </button>
         <button class="logout" id="btnLogout">Sair</button>
       </div>
     </div>
     <div class="banner-marca">
-      <div>Melhores tenis para o seu esporte!</div>
-      <div style="font-size: 1.2rem; margin-top: 0.5rem; font-style: italic;">Tênis premium para quem joga com habilidade</div>
+      Melhores tenis para o seu esporte!
+      <div style="font-size: 1.2rem; margin-top: 0.5rem; font-style: italic;">
+        Tênis premium para quem joga com habilidade
+      </div>
     </div>
     <div class="produtos-grid"></div>
   </template>
@@ -334,7 +337,7 @@
         nome: "Tênis Nike Air Zoom G.T. - Masculino",
         desc: "Design ergonômico com conforto para jogos .",
         preco: "R$ 749,90",
-        img: "https://imgcentauro-a.akamaihd.net/768x768/M16GEQCCA1.jpg"
+        img: "https://imgcentauro-a.akamaihd.net/1200x1200/M14X6Y01A2.jpg"
       },
       {
         nome: "VôleiPro Speedster",
@@ -352,31 +355,31 @@
         nome: "Tênis Asics Netburner Ballistic FF",
         desc: "Estabilidade e leveza para saltos e aterrissagens perfeitas.",
         preco: "R$ 799,90",
-        img: "https://imgcentauro-a.akamaihd.net/768x768/95005101.jpg"
+        img: "https://imgcentauro-a.akamaihd.net/1200x1200/M16GEQCCA3.jpg"
       },
       {
         nome: "Tênis Mizuno Wave Momentum 2",
         desc: "Tecnologia Wave para amortecimento superior.",
         preco: "R$ 899,90",
-        img: "https://imgcentauro-a.akamaihd.net/768x768/95005103.jpg"
+        img: "https://imgcentauro-a.akamaihd.net/1200x1200/M16G5FV3A3.jpg"
       },
       {
-        nome: "Tênis Adidas Crazyflight X 3",
-        desc: "Conforto e suporte para jogadas explosivas.",
-        preco: "R$ 699,90",
-        img: "https://imgcentauro-a.akamaihd.net/768x768/95005104.jpg"
+        nome: "Blusão Masculino Nike Park 20",
+        desc: "Conforto e estilo para aquecer antes do jogo.",
+        preco: "R$ 399,90",
+        img: "https://imgcentauro-a.akamaihd.net/1200x1200/99368502A2.jpg"
       },
       {
-        nome: "Tênis Under Armour HOVR Rise 3",
-        desc: "Tecnologia HOVR para sensação de gravidade zero.",
+        nome: "Camiseta Feminina Nike Manga Curta Tee Rlgd Lb",
+        desc: "Conforto e estilo para treinos e lazer.",
         preco: "R$ 749,90",
-        img: "https://imgcentauro-a.akamaihd.net/768x768/95005105.jpg"
+        img: "https://imgcentauro-a.akamaihd.net/1200x1200/97737331A5.jpg"
       },
       {
-        nome: "Tênis Asics Gel-Rocket 9",
-        desc: "Leveza e respirabilidade para jogos intensos.",
+        nome: "Calça Jogger Nike Sportswear Tech Fleece Masculina",
+        desc: "Estilo e conforto para o dia a dia.",
         preco: "R$ 499,90",
-        img: "https://imgcentauro-a.akamaihd.net/768x768/95005106.jpg"
+        img: "https://imgcentauro-a.akamaihd.net/1200x1200/99557502A2.jpg"
       },
 
     ];
@@ -488,8 +491,7 @@
       }
     }
 
-    function renderConta(usuario) {
-      // Cria um overlay escuro
+    function renderPerfilConta(usuario) {
       let overlay = document.createElement('div');
       overlay.style.position = 'fixed';
       overlay.style.top = 0;
@@ -502,119 +504,6 @@
       overlay.style.alignItems = 'stretch';
       overlay.style.justifyContent = 'flex-end';
 
-      // Cria a aba/modal lateral
-      let modal = document.createElement('div');
-      modal.style.background = '#181840';
-      modal.style.borderTopLeftRadius = '18px';
-      modal.style.borderBottomLeftRadius = '18px';
-      modal.style.width = '340px';
-      modal.style.maxWidth = '90vw';
-      modal.style.height = '100vh';
-      modal.style.boxShadow = '-4px 0 32px #000a, 0 0 0 4px #ffd70055';
-      modal.style.color = '#ffd700';
-      modal.style.textAlign = 'left';
-      modal.style.padding = '2.2rem 2.2rem 2.2rem 2.5rem';
-      modal.style.display = 'flex';
-      modal.style.flexDirection = 'column';
-      modal.style.justifyContent = 'flex-start';
-      modal.style.position = 'relative';
-      modal.style.animation = 'slideInConta 0.4s cubic-bezier(.7,1.7,.7,1)';
-
-      // Gera um ID fictício para o usuário (hash simples)
-      function gerarId(username) {
-        let hash = 0;
-        for (let i = 0; i < username.length; i++) {
-          hash = ((hash << 5) - hash) + username.charCodeAt(i);
-          hash |= 0;
-        }
-        return Math.abs(hash).toString().padStart(7, '0');
-      }
-
-      modal.innerHTML = `
-        <h2 style="margin-bottom:1.2rem;font-size:1.5rem;">Minha Conta</h2>
-        <div style="margin-bottom:1.1rem;">
-          <strong>Usuário:</strong> <span>${usuario.username}</span>
-        </div>
-        <div style="margin-bottom:1.1rem;">
-          <strong>ID:</strong> <span>${gerarId(usuario.username)}</span>
-        </div>
-        <div style="margin-bottom:1.1rem;">
-          <strong>Recuperação de senha:</strong>
-          <div style="margin-top:0.3rem;">
-            <input id="recuperaEmail" type="email" placeholder="Seu e-mail" style="width:100%;padding:0.5rem;border-radius:8px;border:none;background:#222244;color:#ffd700;margin-bottom:0.5rem;">
-            <button id="btnRecuperarSenha" style="background:#ffd700;color:#181840;font-weight:700;padding:0.5rem 1rem;border-radius:8px;cursor:pointer;border:none;">Enviar link</button>
-            <div id="msgRecuperaSenha" style="font-size:0.95rem;color:#ffd700;margin-top:0.5rem;display:none;">Link de recuperação enviado!</div>
-          </div>
-        </div>
-        <button id="btnSairConta" style="background:#b8860b;color:#fff;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:none;margin-top:1.5rem;">Sair</button>
-        <button id="fecharConta" style="background:#ffd700;color:#181840;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:none;margin-top:0.7rem;">Fechar</button>
-      `;
-
-      // Animação lateral
-      const style = document.createElement('style');
-      style.innerHTML = `
-        @keyframes slideInConta {
-          from { transform: translateX(100%); opacity: 0; }
-          to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes slideOutConta {
-          from { transform: translateX(0); opacity: 1; }
-          to { transform: translateX(100%); opacity: 0; }
-        }
-      `;
-      document.head.appendChild(style);
-
-      overlay.appendChild(modal);
-      document.body.appendChild(overlay);
-
-      // Botão sair: remove usuário logado e volta ao login
-      document.getElementById('btnSairConta').onclick = () => {
-        sessionStorage.removeItem('usuarioLogado');
-        modal.style.animation = 'slideOutConta 0.35s cubic-bezier(.7,1.7,.7,1)';
-        setTimeout(() => {
-          document.body.removeChild(overlay);
-          style.remove();
-          renderLogin();
-        }, 350);
-      };
-
-      // Botão fechar com animação de saída
-      document.getElementById('fecharConta').onclick = () => {
-        modal.style.animation = 'slideOutConta 0.35s cubic-bezier(.7,1.7,.7,1)';
-        setTimeout(() => {
-          document.body.removeChild(overlay);
-          style.remove();
-        }, 350);
-      };
-
-      document.getElementById('btnRecuperarSenha').onclick = () => {
-        const email = document.getElementById('recuperaEmail').value.trim();
-        const msg = document.getElementById('msgRecuperaSenha');
-        if (email && email.includes('@')) {
-          msg.style.display = 'block';
-          msg.textContent = 'Link de recuperação enviado!';
-        } else {
-          msg.style.display = 'block';
-          msg.textContent = 'Digite um e-mail válido.';
-        }
-      };
-    }
-
-    function renderConfig(usuario) {
-      // Cria overlay escuro
-      let overlay = document.createElement('div');
-      overlay.style.position = 'fixed';
-      overlay.style.top = 0;
-      overlay.style.left = 0;
-      overlay.style.width = '100vw';
-      overlay.style.height = '100vh';
-      overlay.style.background = 'rgba(10,10,30,0.55)';
-      overlay.style.zIndex = 99999;
-      overlay.style.display = 'flex';
-      overlay.style.alignItems = 'stretch';
-      overlay.style.justifyContent = 'flex-end';
-
-      // Cria a aba/modal lateral
       let modal = document.createElement('div');
       modal.style.background = '#181840';
       modal.style.borderTopLeftRadius = '18px';
@@ -632,7 +521,6 @@
       modal.style.position = 'relative';
       modal.style.animation = 'slideInConta 0.4s cubic-bezier(.7,1.7,.7,1)';
 
-      // Função para gerar um ID fictício do usuário
       function gerarId(username) {
         let hash = 0;
         for (let i = 0; i < username.length; i++) {
@@ -642,12 +530,11 @@
         return Math.abs(hash).toString().padStart(7, '0');
       }
 
-      // Recupera o log de login do usuário (último login)
       let logins = JSON.parse(localStorage.getItem('loginsDB') || '{}');
       let ultimoLogin = logins[usuario.username] || 'Primeiro acesso';
 
       modal.innerHTML = `
-        <h2 style="margin-bottom:1.2rem;font-size:1.5rem;">Configurações</h2>
+        <h2 style="margin-bottom:1.2rem;font-size:1.5rem;">Perfil do Usuário</h2>
         <div style="margin-bottom:1.1rem;">
           <strong>Usuário:</strong> <span>${usuario.username}</span>
         </div>
@@ -658,14 +545,6 @@
           <strong>Último login:</strong> <span>${ultimoLogin}</span>
         </div>
         <div style="margin-bottom:1.1rem;">
-          <strong>Recuperação de usuário:</strong>
-          <div style="margin-top:0.3rem;">
-            <input id="recuperaUserEmail" type="email" placeholder="Seu e-mail" style="width:100%;padding:0.5rem;border-radius:8px;border:none;background:#222244;color:#ffd700;margin-bottom:0.5rem;">
-            <button id="btnRecuperarUser" style="background:#ffd700;color:#181840;font-weight:700;padding:0.5rem 1rem;border-radius:8px;cursor:pointer;border:none;">Enviar usuário</button>
-            <div id="msgRecuperaUser" style="font-size:0.95rem;color:#ffd700;margin-top:0.5rem;display:none;">Usuário enviado!</div>
-          </div>
-        </div>
-        <div style="margin-bottom:1.1rem;">
           <strong>Recuperação de senha:</strong>
           <div style="margin-top:0.3rem;">
             <input id="recuperaEmail" type="email" placeholder="Seu e-mail" style="width:100%;padding:0.5rem;border-radius:8px;border:none;background:#222244;color:#ffd700;margin-bottom:0.5rem;">
@@ -673,10 +552,17 @@
             <div id="msgRecuperaSenha" style="font-size:0.95rem;color:#ffd700;margin-top:0.5rem;display:none;">Link de recuperação enviado!</div>
           </div>
         </div>
-        <button id="fecharConfig" style="background:#ffd700;color:#181840;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:none;margin-top:auto;">Fechar</button>
+        <div style="margin-bottom:1.1rem;">
+          <strong>Suporte:</strong>
+          <div style="margin-top:0.3rem;">
+            <button id="btnSuporte" style="background:#ffd700;color:#181840;font-weight:700;padding:0.5rem 1rem;border-radius:8px;cursor:pointer;border:none;">Falar com o suporte</button>
+            <div id="msgSuporte" style="font-size:0.95rem;color:#ffd700;margin-top:0.5rem;display:none;">Em breve você será atendido!</div>
+          </div>
+        </div>
+        <button id="btnSairConta" style="background:#b8860b;color:#fff;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:none;margin-top:1.5rem;">Sair</button>
+        <button id="fecharPerfilConta" style="background:#ffd700;color:#181840;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:none;margin-top:0.7rem;">Fechar</button>
       `;
 
-      // Animações de entrada e saída
       const style = document.createElement('style');
       style.innerHTML = `
         @keyframes slideInConta {
@@ -693,8 +579,7 @@
       overlay.appendChild(modal);
       document.body.appendChild(overlay);
 
-      // Botão fechar com animação de saída
-      document.getElementById('fecharConfig').onclick = () => {
+      document.getElementById('fecharPerfilConta').onclick = () => {
         modal.style.animation = 'slideOutConta 0.35s cubic-bezier(.7,1.7,.7,1)';
         setTimeout(() => {
           document.body.removeChild(overlay);
@@ -702,20 +587,16 @@
         }, 350);
       };
 
-      // Recuperação de usuário
-      document.getElementById('btnRecuperarUser').onclick = () => {
-        const email = document.getElementById('recuperaUserEmail').value.trim();
-        const msg = document.getElementById('msgRecuperaUser');
-        if (email && email.includes('@')) {
-          msg.style.display = 'block';
-          msg.textContent = 'Usuário enviado!';
-        } else {
-          msg.style.display = 'block';
-          msg.textContent = 'Digite um e-mail válido.';
-        }
+      document.getElementById('btnSairConta').onclick = () => {
+        sessionStorage.removeItem('usuarioLogado');
+        modal.style.animation = 'slideOutConta 0.35s cubic-bezier(.7,1.7,.7,1)';
+        setTimeout(() => {
+          document.body.removeChild(overlay);
+          style.remove();
+          renderLogin();
+        }, 350);
       };
 
-      // Recuperação de senha
       document.getElementById('btnRecuperarSenha').onclick = () => {
         const email = document.getElementById('recuperaEmail').value.trim();
         const msg = document.getElementById('msgRecuperaSenha');
@@ -726,6 +607,12 @@
           msg.style.display = 'block';
           msg.textContent = 'Digite um e-mail válido.';
         }
+      };
+
+      document.getElementById('btnSuporte').onclick = () => {
+        const msg = document.getElementById('msgSuporte');
+        msg.style.display = 'block';
+        msg.textContent = 'Em breve você será atendido!';
       };
     }
 
@@ -747,11 +634,6 @@
         grid.appendChild(card);
       });
 
-      // Remove o botão de conta da interface
-      const btnConta = document.getElementById('btnConta');
-      if (btnConta) btnConta.remove();
-
-      // Recupera usuário logado do localStorage
       const usuarios = getUsuariosDB();
       const user = sessionStorage.getItem('usuarioLogado');
       const usuarioLogado = usuarios.find(u => u.username === user);
@@ -762,7 +644,12 @@
       };
       document.getElementById('btnConfig').onclick = () => {
         if (usuarioLogado) {
-          renderConta(usuarioLogado);
+          renderPerfilConta(usuarioLogado);
+        }
+      };
+      document.getElementById('btnPerfil').onclick = () => {
+        if (usuarioLogado) {
+          renderPerfilConta(usuarioLogado);
         }
       };
     }
