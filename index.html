@@ -287,8 +287,24 @@
       <button type="button" id="togglePass" aria-label="Mostrar senha">👁️</button>
     </div>
     <button id="btnLogin">Entrar</button>
+    <button id="btnCriarConta" style="margin-top:0.5rem;background:#222244;color:#ffd700;">Criar nova conta</button>
     <div class="error" id="error-msg">Usuário ou senha inválidos</div>
     <div class="notificacao" id="notificacao-login">Login realizado com sucesso!</div>
+  </template>
+  <template id="criar-conta-template">
+    <div style="text-align:center; margin-bottom: 1.5rem;">
+      <span style="font-size:2.2rem; font-weight:900; color:#ffd700; letter-spacing:2px; text-shadow:0 0 10px #ffd700cc;">VÔLEIPRO</span>
+    </div>
+    <h2>Criar Conta</h2>
+    <input type="text" id="novoUser" placeholder="Novo usuário" autocomplete="username" />
+    <div class="senha-container">
+      <input type="password" id="novaSenha" placeholder="Nova senha" autocomplete="new-password" />
+      <button type="button" id="toggleNovaSenha" aria-label="Mostrar senha">👁️</button>
+    </div>
+    <button id="btnSalvarConta">Salvar</button>
+    <button id="btnVoltarLogin" style="margin-top:0.5rem;background:#222244;color:#ffd700;">Voltar ao login</button>
+    <div class="error" id="criar-erro-msg"></div>
+    <div class="notificacao" id="notificacao-criar">Conta criada com sucesso!</div>
   </template>
   <template id="loja-template">
     <div class="header-loja">
@@ -336,14 +352,24 @@
 
     const app = document.getElementById('app');
 
+    function getUsuariosDB() {
+      return JSON.parse(localStorage.getItem('usuariosDB') || '[]');
+    }
+    function setUsuariosDB(arr) {
+      localStorage.setItem('usuariosDB', JSON.stringify(arr));
+    }
+
     function renderLogin() {
       app.innerHTML = '';
       const template = document.getElementById('login-template').content.cloneNode(true);
       app.appendChild(template);
+
       document.getElementById('btnLogin').onclick = () => {
         const user = document.getElementById('user').value.trim();
         const pass = document.getElementById('pass').value.trim();
-        if (user === userDB.username && pass === userDB.password) {
+        const usuarios = getUsuariosDB();
+        const achou = usuarios.find(u => u.username === user && u.password === pass);
+        if (achou) {
           mostrarNotificacaoLogin();
           setTimeout(() => {
             renderLoja();
@@ -352,6 +378,9 @@
           document.getElementById('error-msg').style.display = 'block';
         }
       };
+
+      document.getElementById('btnCriarConta').onclick = renderCriarConta;
+
       // Olho para visualizar senha
       const passInput = document.getElementById('pass');
       const toggleBtn = document.getElementById('togglePass');
@@ -378,6 +407,53 @@
           notif.style.display = 'none';
         }, 400);
       }, 1000);
+    }
+
+    function renderCriarConta() {
+      app.innerHTML = '';
+      const template = document.getElementById('criar-conta-template').content.cloneNode(true);
+      app.appendChild(template);
+
+      document.getElementById('btnSalvarConta').onclick = () => {
+        const novoUser = document.getElementById('novoUser').value.trim();
+        const novaSenha = document.getElementById('novaSenha').value.trim();
+        const erroMsg = document.getElementById('criar-erro-msg');
+        if (!novoUser || !novaSenha) {
+          erroMsg.textContent = "Preencha todos os campos.";
+          erroMsg.style.display = "block";
+          return;
+        }
+        let usuarios = getUsuariosDB();
+        if (usuarios.find(u => u.username === novoUser)) {
+          erroMsg.textContent = "Usuário já existe.";
+          erroMsg.style.display = "block";
+          return;
+        }
+        usuarios.push({ username: novoUser, password: novaSenha });
+        setUsuariosDB(usuarios);
+        erroMsg.style.display = "none";
+        document.getElementById('notificacao-criar').style.display = "block";
+        setTimeout(() => {
+          renderLogin();
+        }, 1200);
+      };
+
+      document.getElementById('btnVoltarLogin').onclick = renderLogin;
+
+      // Olho para visualizar senha
+      const passInput = document.getElementById('novaSenha');
+      const toggleBtn = document.getElementById('toggleNovaSenha');
+      if (toggleBtn) {
+        toggleBtn.onclick = () => {
+          if (passInput.type === "password") {
+            passInput.type = "text";
+            toggleBtn.textContent = "🙈";
+          } else {
+            passInput.type = "password";
+            toggleBtn.textContent = "👁️";
+          }
+        };
+      }
     }
 
     function renderLoja() {
