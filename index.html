@@ -49,7 +49,7 @@
       width: 100%;
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
       font-weight: 600;
-    }
+    } 
     input {
       background-color: #222244;
       color: #eee;
@@ -150,14 +150,21 @@
       box-shadow: 0 15px 30px rgba(255, 215, 0, 0.6), inset 0 0 20px #ffd700;
     }
     .card-produto img {
-      max-width: 100%;
+      max-width: 99%;
+      max-height: 145px;
       border-radius: 12px;
       box-shadow: 0 6px 15px rgba(255, 255, 255, 0.1);
       margin-bottom: 1rem;
       transition: transform 0.4s ease;
+      background: #fff;
+      filter: contrast(1.08) brightness(1.08);
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      object-fit: contain;
     }
     .card-produto:hover img {
-      transform: scale(1.1) rotate(3deg);
+      transform: scale(1.06) rotate(0.7deg);
     }
     .produto-nome {
       font-weight: 700;
@@ -171,12 +178,14 @@
       margin-bottom: 0.6rem;
       min-height: 40px;
     }
-    .produto-preco {
+    .card-produto .produto-preco {
       font-weight: 900;
       font-size: 1.3rem;
       color: #ffdb4d;
       text-shadow: 0 0 10px #ffdb4dcc;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.5rem; /* reduzido para aproximar do botão */
+      margin-top: 0.2rem;
+      display: block;
     }
     .btn-comprar {
       background: linear-gradient(90deg, #ffd700cc, #b8860b);
@@ -188,37 +197,116 @@
       border: none;
       cursor: pointer;
       transition: background 0.3s ease;
+      margin-top: auto; /* Alinha o botão na base do card */
+      width: 80%;
+      align-self: center;
+      display: block;
     }
     .btn-comprar:hover {
       background: linear-gradient(90deg, #b8860b, #ffd700cc);
       box-shadow: 0 0 30px #fff350;
+    }
+    .senha-container {
+      position: relative;
+      width: 100%;
+      margin-top: 1.2rem;
+    }
+    .senha-container input {
+      width: 100%;
+      padding-right: 2.5rem;
+      margin-top: 0;
+    }
+    .senha-container button {
+      position: absolute;
+      right: 0.7rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.3rem;
+      color: #ffd700;
+      padding: 0;
+      margin: 0;
+      height: 2rem;
+      width: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .senha-container button:active {
+      color: #b8860b;
+    }
+    .botoes-header {
+      display: flex;
+      gap: 0.7rem;
+    }
+
+    .notificacao {
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      font-size: 1rem;
+      z-index: 1000;
+      animation: slideIn 0.5s ease-out, fadeOut 0.5s ease-in 2s forwards;
+    }
+    @keyframes slideIn {
+      from {
+        transform: translateY(-10px);
+        opacity: 0;
+      } to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      } 100% {
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
   <main id="app"></main>
   <template id="login-template">
-    <h2>Login</h2>
+    <div style="text-align:center; margin-bottom: 1.5rem;">
+      <span style="font-size:2.2rem; font-weight:900; color:#ffd700; letter-spacing:2px; text-shadow:0 0 10px #ffd700cc;">VÔLEIPRO</span>
+    </div>
+    <h2>Faça Login</h2>
     <input type="text" id="user" placeholder="Usuário" autocomplete="username" />
-    <input type="password" id="pass" placeholder="Senha" autocomplete="current-password" />
+    <div class="senha-container">
+      <input type="password" id="pass" placeholder="Senha" autocomplete="current-password" />
+      <button type="button" id="togglePass" aria-label="Mostrar senha">👁️</button>
+    </div>
     <button id="btnLogin">Entrar</button>
     <div class="error" id="error-msg">Usuário ou senha inválidos</div>
+    <div class="notificacao" id="notificacao-login">Login realizado com sucesso!</div>
   </template>
   <template id="loja-template">
     <div class="header-loja">
       <h2>VôleiPro - Loja Oficial</h2>
-      <button class="btn-conta">Conta</button>
-      <button class="btn-config">Configurações</button>
-      <button class="logout" id="btnLogout">Sair</button>
+      <div class="botoes-header">
+        <button class="btn-conta" id="btnConta">Conta</button>
+        <button class="btn-config" id="btnConfig">Configurações</button>
+        <button class="logout" id="btnLogout">Sair</button>
+      </div>
     </div>
     <div class="banner-marca">
       <div>Melhores tenis para o seu esporte!</div>
-      <div style="font-size: 1.2rem; margin-top: 0.4rem; font-style: italic;">Tênis premium para quem joga com habilidade</div>
+      <div style="font-size: 1.2rem; margin-top: 0.5rem; font-style: italic;">Tênis premium para quem joga com habilidade</div>
     </div>
     <div class="produtos-grid"></div>
   </template>
   <script>
-    const userDB = { username: "voleipro", password: "volei123" };
+    const userDB = { username: "volei123", password: "volei123" };
     const produtos = [
       {
         nome: "Tênis Olympikus Quadra BR1 - Unissex",
@@ -228,7 +316,7 @@
       },
       {
         nome: "Tênis Nike Air Zoom G.T. - Masculino",
-        desc: "Design ergonômico com conforto para jogos longos.",
+        desc: "Design ergonômico com conforto para jogos .",
         preco: "R$ 749,90",
         img: "https://imgcentauro-a.akamaihd.net/768x768/M16GEQCCA1.jpg"
       },
@@ -256,11 +344,40 @@
         const user = document.getElementById('user').value.trim();
         const pass = document.getElementById('pass').value.trim();
         if (user === userDB.username && pass === userDB.password) {
-          renderLoja();
+          mostrarNotificacaoLogin();
+          setTimeout(() => {
+            renderLoja();
+          }, 1200);
         } else {
           document.getElementById('error-msg').style.display = 'block';
         }
       };
+      // Olho para visualizar senha
+      const passInput = document.getElementById('pass');
+      const toggleBtn = document.getElementById('togglePass');
+      if (toggleBtn) {
+        toggleBtn.onclick = () => {
+          if (passInput.type === "password") {
+            passInput.type = "text";
+            toggleBtn.textContent = "🙈";
+          } else {
+            passInput.type = "password";
+            toggleBtn.textContent = "👁️";
+          }
+        };
+      }
+    }
+
+    function mostrarNotificacaoLogin() {
+      const notif = document.getElementById('notificacao-login');
+      notif.style.display = 'block';
+      notif.style.opacity = '1';
+      setTimeout(() => {
+        notif.style.opacity = '0';
+        setTimeout(() => {
+          notif.style.display = 'none';
+        }, 400);
+      }, 1000);
     }
 
     function renderLoja() {
@@ -280,7 +397,15 @@
         `;
         grid.appendChild(card);
       });
+
+      // Funções dos botões
       document.getElementById('btnLogout').onclick = renderLogin;
+      document.getElementById('btnConta').onclick = () => {
+        alert('Área da Conta: aqui você poderá ver e editar seus dados em breve.');
+      };
+      document.getElementById('btnConfig').onclick = () => {
+        alert('Configurações: em breve você poderá personalizar sua experiência.');
+      };
     }
 
     renderLogin();
