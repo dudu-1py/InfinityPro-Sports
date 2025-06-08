@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>VôleiPro - Loja Online</title>
+  <title>VôleiPro - Loja Oficial</title>
   <style>
     /* Reset e básicos */
     * {
@@ -233,9 +233,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-    .senha-container button:active {
-      color: #b8860b;
+      /* Removendo sombra e animação */
+      box-shadow: none;
+      transition: none;
     }
     .botoes-header {
       display: flex;
@@ -347,7 +347,38 @@
         desc: "Solado anti-derrapante para maior estabilidade.",
         preco: "R$ 679,90",
         img: "https://imgcentauro-a.akamaihd.net/360x360/99103102A9.jpg"
-      }
+      },
+      {
+        nome: "Tênis Asics Netburner Ballistic FF",
+        desc: "Estabilidade e leveza para saltos e aterrissagens perfeitas.",
+        preco: "R$ 799,90",
+        img: "https://imgcentauro-a.akamaihd.net/768x768/95005101.jpg"
+      },
+      {
+        nome: "Tênis Mizuno Wave Momentum 2",
+        desc: "Tecnologia Wave para amortecimento superior.",
+        preco: "R$ 899,90",
+        img: "https://imgcentauro-a.akamaihd.net/768x768/95005103.jpg"
+      },
+      {
+        nome: "Tênis Adidas Crazyflight X 3",
+        desc: "Conforto e suporte para jogadas explosivas.",
+        preco: "R$ 699,90",
+        img: "https://imgcentauro-a.akamaihd.net/768x768/95005104.jpg"
+      },
+      {
+        nome: "Tênis Under Armour HOVR Rise 3",
+        desc: "Tecnologia HOVR para sensação de gravidade zero.",
+        preco: "R$ 749,90",
+        img: "https://imgcentauro-a.akamaihd.net/768x768/95005105.jpg"
+      },
+      {
+        nome: "Tênis Asics Gel-Rocket 9",
+        desc: "Leveza e respirabilidade para jogos intensos.",
+        preco: "R$ 499,90",
+        img: "https://imgcentauro-a.akamaihd.net/768x768/95005106.jpg"
+      },
+
     ];
 
     const app = document.getElementById('app');
@@ -370,6 +401,7 @@
         const usuarios = getUsuariosDB();
         const achou = usuarios.find(u => u.username === user && u.password === pass);
         if (achou) {
+          sessionStorage.setItem('usuarioLogado', achou.username);
           mostrarNotificacaoLogin();
           setTimeout(() => {
             renderLoja();
@@ -456,6 +488,247 @@
       }
     }
 
+    function renderConta(usuario) {
+      // Cria um overlay escuro
+      let overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.top = 0;
+      overlay.style.left = 0;
+      overlay.style.width = '100vw';
+      overlay.style.height = '100vh';
+      overlay.style.background = 'rgba(10,10,30,0.55)';
+      overlay.style.zIndex = 99999;
+      overlay.style.display = 'flex';
+      overlay.style.alignItems = 'stretch';
+      overlay.style.justifyContent = 'flex-end';
+
+      // Cria a aba/modal lateral
+      let modal = document.createElement('div');
+      modal.style.background = '#181840';
+      modal.style.borderTopLeftRadius = '18px';
+      modal.style.borderBottomLeftRadius = '18px';
+      modal.style.width = '340px';
+      modal.style.maxWidth = '90vw';
+      modal.style.height = '100vh';
+      modal.style.boxShadow = '-4px 0 32px #000a, 0 0 0 4px #ffd70055';
+      modal.style.color = '#ffd700';
+      modal.style.textAlign = 'left';
+      modal.style.padding = '2.2rem 2.2rem 2.2rem 2.5rem';
+      modal.style.display = 'flex';
+      modal.style.flexDirection = 'column';
+      modal.style.justifyContent = 'flex-start';
+      modal.style.position = 'relative';
+      modal.style.animation = 'slideInConta 0.4s cubic-bezier(.7,1.7,.7,1)';
+
+      // Gera um ID fictício para o usuário (hash simples)
+      function gerarId(username) {
+        let hash = 0;
+        for (let i = 0; i < username.length; i++) {
+          hash = ((hash << 5) - hash) + username.charCodeAt(i);
+          hash |= 0;
+        }
+        return Math.abs(hash).toString().padStart(7, '0');
+      }
+
+      modal.innerHTML = `
+        <h2 style="margin-bottom:1.2rem;font-size:1.5rem;">Minha Conta</h2>
+        <div style="margin-bottom:1.1rem;">
+          <strong>Usuário:</strong> <span>${usuario.username}</span>
+        </div>
+        <div style="margin-bottom:1.1rem;">
+          <strong>ID:</strong> <span>${gerarId(usuario.username)}</span>
+        </div>
+        <div style="margin-bottom:1.1rem;">
+          <strong>Recuperação de senha:</strong>
+          <div style="margin-top:0.3rem;">
+            <input id="recuperaEmail" type="email" placeholder="Seu e-mail" style="width:100%;padding:0.5rem;border-radius:8px;border:none;background:#222244;color:#ffd700;margin-bottom:0.5rem;">
+            <button id="btnRecuperarSenha" style="background:#ffd700;color:#181840;font-weight:700;padding:0.5rem 1rem;border-radius:8px;cursor:pointer;border:none;">Enviar link</button>
+            <div id="msgRecuperaSenha" style="font-size:0.95rem;color:#ffd700;margin-top:0.5rem;display:none;">Link de recuperação enviado!</div>
+          </div>
+        </div>
+        <button id="btnSairConta" style="background:#b8860b;color:#fff;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:none;margin-top:1.5rem;">Sair</button>
+        <button id="fecharConta" style="background:#ffd700;color:#181840;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:none;margin-top:0.7rem;">Fechar</button>
+      `;
+
+      // Animação lateral
+      const style = document.createElement('style');
+      style.innerHTML = `
+        @keyframes slideInConta {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOutConta {
+          from { transform: translateX(0); opacity: 1; }
+          to { transform: translateX(100%); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+
+      // Botão sair: remove usuário logado e volta ao login
+      document.getElementById('btnSairConta').onclick = () => {
+        sessionStorage.removeItem('usuarioLogado');
+        modal.style.animation = 'slideOutConta 0.35s cubic-bezier(.7,1.7,.7,1)';
+        setTimeout(() => {
+          document.body.removeChild(overlay);
+          style.remove();
+          renderLogin();
+        }, 350);
+      };
+
+      // Botão fechar com animação de saída
+      document.getElementById('fecharConta').onclick = () => {
+        modal.style.animation = 'slideOutConta 0.35s cubic-bezier(.7,1.7,.7,1)';
+        setTimeout(() => {
+          document.body.removeChild(overlay);
+          style.remove();
+        }, 350);
+      };
+
+      document.getElementById('btnRecuperarSenha').onclick = () => {
+        const email = document.getElementById('recuperaEmail').value.trim();
+        const msg = document.getElementById('msgRecuperaSenha');
+        if (email && email.includes('@')) {
+          msg.style.display = 'block';
+          msg.textContent = 'Link de recuperação enviado!';
+        } else {
+          msg.style.display = 'block';
+          msg.textContent = 'Digite um e-mail válido.';
+        }
+      };
+    }
+
+    function renderConfig(usuario) {
+      // Cria overlay escuro
+      let overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.top = 0;
+      overlay.style.left = 0;
+      overlay.style.width = '100vw';
+      overlay.style.height = '100vh';
+      overlay.style.background = 'rgba(10,10,30,0.55)';
+      overlay.style.zIndex = 99999;
+      overlay.style.display = 'flex';
+      overlay.style.alignItems = 'stretch';
+      overlay.style.justifyContent = 'flex-end';
+
+      // Cria a aba/modal lateral
+      let modal = document.createElement('div');
+      modal.style.background = '#181840';
+      modal.style.borderTopLeftRadius = '18px';
+      modal.style.borderBottomLeftRadius = '18px';
+      modal.style.width = '370px';
+      modal.style.maxWidth = '95vw';
+      modal.style.height = '100vh';
+      modal.style.boxShadow = '-4px 0 32px #000a, 0 0 0 4px #ffd70055';
+      modal.style.color = '#ffd700';
+      modal.style.textAlign = 'left';
+      modal.style.padding = '2.2rem 2.2rem 2.2rem 2.5rem';
+      modal.style.display = 'flex';
+      modal.style.flexDirection = 'column';
+      modal.style.justifyContent = 'flex-start';
+      modal.style.position = 'relative';
+      modal.style.animation = 'slideInConta 0.4s cubic-bezier(.7,1.7,.7,1)';
+
+      // Função para gerar um ID fictício do usuário
+      function gerarId(username) {
+        let hash = 0;
+        for (let i = 0; i < username.length; i++) {
+          hash = ((hash << 5) - hash) + username.charCodeAt(i);
+          hash |= 0;
+        }
+        return Math.abs(hash).toString().padStart(7, '0');
+      }
+
+      // Recupera o log de login do usuário (último login)
+      let logins = JSON.parse(localStorage.getItem('loginsDB') || '{}');
+      let ultimoLogin = logins[usuario.username] || 'Primeiro acesso';
+
+      modal.innerHTML = `
+        <h2 style="margin-bottom:1.2rem;font-size:1.5rem;">Configurações</h2>
+        <div style="margin-bottom:1.1rem;">
+          <strong>Usuário:</strong> <span>${usuario.username}</span>
+        </div>
+        <div style="margin-bottom:1.1rem;">
+          <strong>ID:</strong> <span>${gerarId(usuario.username)}</span>
+        </div>
+        <div style="margin-bottom:1.1rem;">
+          <strong>Último login:</strong> <span>${ultimoLogin}</span>
+        </div>
+        <div style="margin-bottom:1.1rem;">
+          <strong>Recuperação de usuário:</strong>
+          <div style="margin-top:0.3rem;">
+            <input id="recuperaUserEmail" type="email" placeholder="Seu e-mail" style="width:100%;padding:0.5rem;border-radius:8px;border:none;background:#222244;color:#ffd700;margin-bottom:0.5rem;">
+            <button id="btnRecuperarUser" style="background:#ffd700;color:#181840;font-weight:700;padding:0.5rem 1rem;border-radius:8px;cursor:pointer;border:none;">Enviar usuário</button>
+            <div id="msgRecuperaUser" style="font-size:0.95rem;color:#ffd700;margin-top:0.5rem;display:none;">Usuário enviado!</div>
+          </div>
+        </div>
+        <div style="margin-bottom:1.1rem;">
+          <strong>Recuperação de senha:</strong>
+          <div style="margin-top:0.3rem;">
+            <input id="recuperaEmail" type="email" placeholder="Seu e-mail" style="width:100%;padding:0.5rem;border-radius:8px;border:none;background:#222244;color:#ffd700;margin-bottom:0.5rem;">
+            <button id="btnRecuperarSenha" style="background:#ffd700;color:#181840;font-weight:700;padding:0.5rem 1rem;border-radius:8px;cursor:pointer;border:none;">Enviar link</button>
+            <div id="msgRecuperaSenha" style="font-size:0.95rem;color:#ffd700;margin-top:0.5rem;display:none;">Link de recuperação enviado!</div>
+          </div>
+        </div>
+        <button id="fecharConfig" style="background:#ffd700;color:#181840;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:none;margin-top:auto;">Fechar</button>
+      `;
+
+      // Animações de entrada e saída
+      const style = document.createElement('style');
+      style.innerHTML = `
+        @keyframes slideInConta {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOutConta {
+          from { transform: translateX(0); opacity: 1; }
+          to { transform: translateX(100%); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+
+      // Botão fechar com animação de saída
+      document.getElementById('fecharConfig').onclick = () => {
+        modal.style.animation = 'slideOutConta 0.35s cubic-bezier(.7,1.7,.7,1)';
+        setTimeout(() => {
+          document.body.removeChild(overlay);
+          style.remove();
+        }, 350);
+      };
+
+      // Recuperação de usuário
+      document.getElementById('btnRecuperarUser').onclick = () => {
+        const email = document.getElementById('recuperaUserEmail').value.trim();
+        const msg = document.getElementById('msgRecuperaUser');
+        if (email && email.includes('@')) {
+          msg.style.display = 'block';
+          msg.textContent = 'Usuário enviado!';
+        } else {
+          msg.style.display = 'block';
+          msg.textContent = 'Digite um e-mail válido.';
+        }
+      };
+
+      // Recuperação de senha
+      document.getElementById('btnRecuperarSenha').onclick = () => {
+        const email = document.getElementById('recuperaEmail').value.trim();
+        const msg = document.getElementById('msgRecuperaSenha');
+        if (email && email.includes('@')) {
+          msg.style.display = 'block';
+          msg.textContent = 'Link de recuperação enviado!';
+        } else {
+          msg.style.display = 'block';
+          msg.textContent = 'Digite um e-mail válido.';
+        }
+      };
+    }
+
     function renderLoja() {
       app.innerHTML = '';
       const template = document.getElementById('loja-template').content.cloneNode(true);
@@ -474,13 +747,23 @@
         grid.appendChild(card);
       });
 
-      // Funções dos botões
-      document.getElementById('btnLogout').onclick = renderLogin;
-      document.getElementById('btnConta').onclick = () => {
-        alert('Área da Conta: aqui você poderá ver e editar seus dados em breve.');
+      // Remove o botão de conta da interface
+      const btnConta = document.getElementById('btnConta');
+      if (btnConta) btnConta.remove();
+
+      // Recupera usuário logado do localStorage
+      const usuarios = getUsuariosDB();
+      const user = sessionStorage.getItem('usuarioLogado');
+      const usuarioLogado = usuarios.find(u => u.username === user);
+
+      document.getElementById('btnLogout').onclick = () => {
+        sessionStorage.removeItem('usuarioLogado');
+        renderLogin();
       };
       document.getElementById('btnConfig').onclick = () => {
-        alert('Configurações: em breve você poderá personalizar sua experiência.');
+        if (usuarioLogado) {
+          renderConta(usuarioLogado);
+        }
       };
     }
 
