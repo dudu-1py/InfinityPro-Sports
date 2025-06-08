@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <title>InfinityPro Sports - Loja Oficial</title>
   <style>
-    /* Reset e básicos */
+
     * {
       box-sizing: border-box;
-      margin: 0; padding: 0;
+      margin: auto; 
+      padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
@@ -46,16 +47,15 @@
       border: none;
       font-size: 1rem;
       padding: 0.9rem 1.1rem;
-      margin-top: 1.2rem;
-      width: 100%;
+      margin-top: auto;
+      width: 50%;
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
       font-weight: 600;
     } 
     input {
-      background-color: #f5f5f5;
+      background-color: #fff;
       color: #111;
-      box-shadow: none;
-      border: 1px solid #e5e5e5;
+      border: 1.5px solid #111;
     }
     input::placeholder {
       color: #bbb;
@@ -64,7 +64,7 @@
       font-family: inherit;
     }
     .error {
-      margin-top: 0.8rem;
+      margin-top: auto;
       font-size: 0.9rem;
       color: #ff7777;
       display: none;
@@ -86,30 +86,30 @@
       text-shadow: none;
     }
     .botoes-header button {
-      background: #f5f5f5;
+      background: #fff;
       color: #111;
-      border: 1px solid #e5e5e5;
+      border: 1.5px solid #111;
       box-shadow: none;
       font-weight: 600;
       padding: 0.6rem 1.3rem;
       border-radius: 8px;
-      transition: background 0.2s, border 0.2s;
+      transition: background 0.2s, border 0.2s, color 0.2s;
     }
     .botoes-header button:hover {
       background: #111;
       color: #fff;
-      border: 1px solid #111;
+      border: 1.5px solid #111;
     }
     .logout {
       background: #111 !important;
       color: #fff !important;
-      border: 1px solid #111 !important;
+      border: 1.5px solid #111 !important;
       box-shadow: none !important;
     }
     .logout:hover {
-      background: #e5e5e5 !important;
+      background: #fff !important;
       color: #111 !important;
-      border: 1px solid #e5e5e5 !important;
+      border: 1.5px solid #111 !important;
     }
 
     .banner-marca { 
@@ -153,6 +153,8 @@
       text-align: center;
       padding: 1.2rem 1rem 1.5rem 1rem;
       border: 1px solid #e5e5e5;
+      height: 100%;
+      position: relative; /* Adicionado para posicionamento absoluto interno */
     }
     .card-produto:hover {
       transform: translateY(-6px) scale(1.03);
@@ -186,36 +188,28 @@
       font-size: 1.2rem;
       color: #111;
       margin-bottom: 0.5rem;
-      margin-top: 0.2rem;
+      margin-top: auto;
       display: block;
     }
     .btn-comprar {
       background: #111;
       color: #fff;
-      padding: 0.7rem 1.2rem;
-      border-radius: 8px;
-      font-weight: 700;
       border: none;
-      cursor: pointer;
-      transition: background 0.2s;
-      margin-top: auto;
-      width: 80%;
-      align-self: center;
-      display: block;
     }
     .btn-comprar:hover {
-      background: #e5e5e5;
+      background: #fff;
       color: #111;
+      border: 1.5px solid #111;
     }
     .senha-container {
       position: relative;
       width: 100%;
-      margin-top: 1.2rem;
+      margin-top: auto;
     }
     .senha-container input {
       width: 100%;
       padding-right: 2.5rem;
-      margin-top: 0;
+      margin-top: auto;
     }
     .senha-container button {
       position: absolute;
@@ -226,7 +220,7 @@
       border: none;
       cursor: pointer;
       font-size: 1.3rem;
-      color: #ffd700;
+      color: #000;
       padding: 0;
       margin: 0;
       height: 2rem;
@@ -288,7 +282,7 @@
       <button type="button" id="togglePass" aria-label="Mostrar senha">👁️</button>
     </div>
     <button id="btnLogin">Entrar</button>
-    <button id="btnCriarConta" style="margin-top:1rem;background:#222244;color:#ffd700;">Criar nova conta</button>
+    <button id="btnCriarConta" style="margin-top:1rem;background:#fff;color:#000000;">Criar nova conta</button>
     <div class="error" id="error-msg">Usuário ou senha inválidos</div>
     <div class="notificacao" id="notificacao-login">Login realizado com sucesso!</div>
   </template>
@@ -303,7 +297,7 @@
       <button type="button" id="toggleNovaSenha" aria-label="Mostrar senha">👁️</button>
     </div>
     <button id="btnSalvarConta">Salvar</button>
-    <button id="btnVoltarLogin" style="margin-top:0.5rem;background:#222244;color:#ffd700;">Voltar ao login</button>
+    <button id="btnVoltarLogin" style="margin-top:0.5rem;background:#fff;color:#000;">Voltar ao login</button>
     <div class="error" id="criar-erro-msg"></div>
     <div class="notificacao" id="notificacao-criar">Conta criada com sucesso!</div>
   </template>
@@ -311,9 +305,8 @@
     <div class="header-loja">
       <h2>InfinityPro Sports Loja - Oficial</h2>
       <div class="botoes-header">
-        <button class="btn-perfil" id="btnPerfil">👤 </button>
-        <button class="btn-config" id="btnConfig">⚙️ </button>
-        <button class="logout" id="btnLogout">Sair</button>
+        <button class="btn-perfil" id="btnPerfil">👤</button>
+        <button class="btn-config" id="btnConfig">⚙️</button>
       </div>
     </div>
     <div class="banner-marca">
@@ -325,7 +318,7 @@
     <div class="produtos-grid"></div>
   </template>
   <script>
-    const userDB = { username: "volei123", password: "volei123" };
+    const userDB = { username: "desenvolvedor", password: "dev123" };
     const produtos = [
       {
         nome: "Tênis Olympikus Quadra BR1 - Unissex",
@@ -393,6 +386,29 @@
       localStorage.setItem('usuariosDB', JSON.stringify(arr));
     }
 
+    // Função para salvar logs de cadastro e login
+    function salvarLog(tipo, dados) {
+      // tipo: 'cadastro' ou 'login'
+      // dados: { email, username, id, senha }
+      let logs = JSON.parse(localStorage.getItem('logsDB') || '[]');
+      logs.push({
+        tipo,
+        ...dados,
+        data: new Date().toISOString()
+      });
+      localStorage.setItem('logsDB', JSON.stringify(logs));
+    }
+
+    // Gere um ID único simples (pode ser melhorado)
+    function gerarId(username) {
+      let hash = 0;
+      for (let i = 0; i < username.length; i++) {
+        hash = ((hash << 5) - hash) + username.charCodeAt(i);
+        hash |= 0;
+      }
+      return Math.abs(hash).toString().padStart(7, '0');
+    }
+
     function renderLogin() {
       app.innerHTML = '';
       const template = document.getElementById('login-template').content.cloneNode(true);
@@ -406,6 +422,15 @@
         if (achou) {
           sessionStorage.setItem('usuarioLogado', achou.username);
           mostrarNotificacaoLogin();
+
+          // Salva log de login
+          salvarLog('login', {
+            email: achou.email || '',
+            username: achou.username,
+            id: gerarId(achou.username),
+            senha: achou.password
+          });
+
           setTimeout(() => {
             renderLoja();
           }, 1200);
@@ -444,6 +469,7 @@
       }, 1000);
     }
 
+    // Ao criar conta, salve o log
     function renderCriarConta() {
       app.innerHTML = '';
       const template = document.getElementById('criar-conta-template').content.cloneNode(true);
@@ -453,6 +479,11 @@
         const novoUser = document.getElementById('novoUser').value.trim();
         const novaSenha = document.getElementById('novaSenha').value.trim();
         const erroMsg = document.getElementById('criar-erro-msg');
+        // Adicione campo de email se desejar, aqui está como opcional:
+        let email = '';
+        const emailInput = document.getElementById('novoEmail');
+        if (emailInput) email = emailInput.value.trim();
+
         if (!novoUser || !novaSenha) {
           erroMsg.textContent = "Preencha todos os campos.";
           erroMsg.style.display = "block";
@@ -464,10 +495,19 @@
           erroMsg.style.display = "block";
           return;
         }
-        usuarios.push({ username: novoUser, password: novaSenha });
+        usuarios.push({ username: novoUser, password: novaSenha, email });
         setUsuariosDB(usuarios);
         erroMsg.style.display = "none";
         document.getElementById('notificacao-criar').style.display = "block";
+
+        // Salva log de cadastro
+        salvarLog('cadastro', {
+          email,
+          username: novoUser,
+          id: gerarId(novoUser),
+          senha: novaSenha
+        });
+
         setTimeout(() => {
           renderLogin();
         }, 1200);
@@ -656,10 +696,6 @@
       const user = sessionStorage.getItem('usuarioLogado');
       const usuarioLogado = usuarios.find(u => u.username === user);
 
-      document.getElementById('btnLogout').onclick = () => {
-        sessionStorage.removeItem('usuarioLogado');
-        renderLoja();
-      };
       document.getElementById('btnConfig').onclick = () => {
         if (usuarioLogado) {
           renderPerfilConta(usuarioLogado);
@@ -758,8 +794,7 @@
         acaoAposLogin = null;
       };
     }
-
-    // Ao iniciar, renderize a loja (sem login obrigatório)
+    // Inicia a aplicação renderizando o login
     renderLoja();
   </script>
 </body>
