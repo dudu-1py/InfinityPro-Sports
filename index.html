@@ -1127,8 +1127,9 @@ const produtos = gerarProdutos(produtosBase, 3);
 
 // Botão Configurações
 document.getElementById('sidebar-config').onclick = () => {
-  // Abre um painel lateral com opções de escala e tema
+  removerOverlays();
   let overlay = document.createElement('div');
+  overlay.className = 'modal-overlay-custom';
   overlay.style.position = 'fixed';
   overlay.style.top = 0;
   overlay.style.left = 0;
@@ -1193,7 +1194,6 @@ document.getElementById('sidebar-config').onclick = () => {
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
 
-  // Escala de tela
   document.getElementById('escalaMenor').onclick = () => {
     document.body.style.fontSize = '90%';
     localStorage.setItem('escalaTela', '90');
@@ -1206,8 +1206,6 @@ document.getElementById('sidebar-config').onclick = () => {
     document.body.style.fontSize = '115%';
     localStorage.setItem('escalaTela', '115');
   };
-
-  // Tema claro/escuro
   document.getElementById('temaClaro').onclick = () => {
     document.body.style.background = '#f5f5f5';
     document.body.style.color = '#111';
@@ -1222,7 +1220,6 @@ document.getElementById('sidebar-config').onclick = () => {
     document.getElementById('app').style.color = '#fff';
     localStorage.setItem('tema', 'escuro');
   };
-
   document.getElementById('fecharConfigConta').onclick = () => {
     modal.style.animation = 'slideOutConta 0.35s cubic-bezier(.7,1.7,.7,1)';
     setTimeout(() => {
@@ -1233,44 +1230,17 @@ document.getElementById('sidebar-config').onclick = () => {
 };
 
 document.getElementById('sidebar-perfil').onclick = () => {
+  removerOverlays();
   const usuarios = getUsuariosDB();
   const user = sessionStorage.getItem('usuarioLogado');
   const usuarioLogado = usuarios.find(u => u.username === user);
 
   if (!usuarioLogado) {
-    renderLogin();
+    abrirModalCentral('Perfil', 'Você não está logado.');
     return;
   }
-
-  let overlay = document.createElement('div');
-  overlay.style.position = 'fixed';
-  overlay.style.top = 0;
-  overlay.style.left = 0;
-  overlay.style.width = '100vw';
-  overlay.style.height = '100vh';
-  overlay.style.background = 'rgba(10,10,30,0.55)';
-  overlay.style.zIndex = 99999;
-  overlay.style.display = 'flex';
-  overlay.style.alignItems = 'stretch';
-  overlay.style.justifyContent = 'flex-end';
-
-  let modal = document.createElement('div');
-  modal.style.background = '#181840';
-  modal.style.borderTopLeftRadius = '18px';
-  modal.style.borderBottomLeftRadius = '18px';
-  modal.style.width = '370px';
-  modal.style.maxWidth = '95vw';
-  modal.style.height = 'auto';
-  modal.style.boxShadow = '-4px 0 32px #000a, 0 0 0 4px #1112';
-  modal.style.color = '#fff';
-  modal.style.textAlign = 'left';
-  modal.style.padding = '2.2rem 2.2rem 2.2rem 2.5rem';
-  modal.style.display = 'flex';
-  modal.style.flexDirection = 'column';
-  modal.style.justifyContent = 'flex-start';
-  modal.style.position = 'relative';
-  modal.style.animation = 'slideInConta 0.4s cubic-bezier(.7,1.7,.7,1)';
-
+  let logins = JSON.parse(localStorage.getItem('loginsDB') || '{}');
+  let ultimoLogin = logins[usuarioLogado.username] || 'Primeiro acesso';
   function gerarId(username) {
     let hash = 0;
     for (let i = 0; i < username.length; i++) {
@@ -1279,10 +1249,28 @@ document.getElementById('sidebar-perfil').onclick = () => {
     }
     return Math.abs(hash).toString().padStart(7, '0');
   }
+  let overlay = document.createElement('div');
+  overlay.className = 'modal-overlay-custom';
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(10,10,30,0.55)';
+  overlay.style.zIndex = 99999;
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
 
-  let logins = JSON.parse(localStorage.getItem('loginsDB') || '{}');
-  let ultimoLogin = logins[usuarioLogado.username] || 'Primeiro acesso';
-
+  let modal = document.createElement('div');
+  modal.style.background = '#181840';
+  modal.style.borderRadius = '18px';
+  modal.style.width = '100%';
+  modal.style.maxWidth = '370px';
+  modal.style.boxShadow = '0 8px 32px 0 rgba(34,34,34,0.18)';
+  modal.style.color = '#fff';
+  modal.style.padding = '2.2rem';
+  modal.style.position = 'relative';
   modal.innerHTML = `
     <h2 style="margin-bottom:1.2rem;font-size:1.5rem;color:#fff;">Perfil do Usuário</h2>
     <div style="margin-bottom:1.1rem;">
@@ -1297,126 +1285,46 @@ document.getElementById('sidebar-perfil').onclick = () => {
     <button id="btnSairConta" style="background:#111;color:#fff;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:none;margin-top:2.5rem;">Sair da conta</button>
     <button id="fecharPerfilConta" style="background:#fff;color:#111;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:1.5px solid #111;margin-top:0.7rem;">Fechar</button>
   `;
-
-  const style = document.createElement('style');
-  style.innerHTML = `
-    @keyframes slideInConta {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideOutConta {
-      from { transform: translateX(0); opacity: 1; }
-      to { transform: translateX(100%); opacity: 0; }
-    }
-  `;
-  document.head.appendChild(style);
-
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
 
-  document.getElementById('fecharPerfilConta').onclick = () => {
-    modal.style.animation = 'slideOutConta 0.35s cubic-bezier(.7,1.7,.7,1)';
-    setTimeout(() => {
-      document.body.removeChild(overlay);
-      style.remove();
-    }, 350);
-  };
-
+  document.getElementById('fecharPerfilConta').onclick = () => overlay.remove();
   document.getElementById('btnSairConta').onclick = () => {
     sessionStorage.removeItem('usuarioLogado');
-    modal.style.animation = 'slideOutConta 0.35s cubic-bezier(.7,1.7,.7,1)';
-    setTimeout(() => {
-      document.body.removeChild(overlay);
-      style.remove();
-      renderLogin();
-    }, 350);
+    overlay.remove();
+    renderLogin();
   };
 };
 
 document.getElementById('sidebar-sobre').onclick = () => {
-  // Abre um modal central com informações sobre o projeto, finalidade e autoria
-  let overlay = document.createElement('div');
-  overlay.style.position = 'fixed';
-  overlay.style.top = 0;
-  overlay.style.left = 0;
-  overlay.style.width = '100vw';
-  overlay.style.height = '100vh';
-  overlay.style.background = 'rgba(10,10,30,0.55)';
-  overlay.style.zIndex = 99999;
-  overlay.style.display = 'flex';
-  overlay.style.alignItems = 'center';
-  overlay.style.justifyContent = 'center';
-
-  let modal = document.createElement('div');
-  modal.style.background = '#fff';
-  modal.style.borderRadius = '18px';
-  modal.style.width = '100%';
-  modal.style.maxWidth = '370px';
-  modal.style.boxShadow = '0 8px 32px 0 rgba(34,34,34,0.18)';
-  modal.style.color = '#111';
-  modal.style.padding = '2.2rem';
-  modal.style.position = 'relative';
-  modal.innerHTML = `
-    <h2 style="text-align:center;">Sobre o Projeto</h2>
-    <div style="margin-bottom:1.2rem;text-align:center;">
-      InfinityPro Sports Loja<br>
-      Projeto demonstrativo para fins de estudo.<br>
-      Desenvolvido por <b>Seu Nome</b>.<br>
-      2025
-    </div>
-    <button id="fecharSobreModal" style="background:#fff;color:#111;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:1.5px solid #111;">Fechar</button>
-  `;
-  overlay.appendChild(modal);
-  document.body.appendChild(overlay);
-  modal.querySelector('#fecharSobreModal').onclick = () => overlay.remove();
+  abrirModalCentral(
+    'Sobre o Projeto',
+    `InfinityPro Sports Loja<br>
+    Projeto demonstrativo para fins de estudo.<br>
+    Desenvolvido por <b>Seu Nome</b>.<br>
+    2025`
+  );
 };
 
 document.getElementById('sidebar-ajuda').onclick = () => {
-  // Abre um modal central com dúvidas frequentes, e-mail de suporte e orientação para contato
-  let overlay = document.createElement('div');
-  overlay.style.position = 'fixed';
-  overlay.style.top = 0;
-  overlay.style.left = 0;
-  overlay.style.width = '100vw';
-  overlay.style.height = '100vh';
-  overlay.style.background = 'rgba(10,10,30,0.55)';
-  overlay.style.zIndex = 99999;
-  overlay.style.display = 'flex';
-  overlay.style.alignItems = 'center';
-  overlay.style.justifyContent = 'center';
-
-  let modal = document.createElement('div');
-  modal.style.background = '#fff';
-  modal.style.borderRadius = '18px';
-  modal.style.width = '100%';
-  modal.style.maxWidth = '400px';
-  modal.style.boxShadow = '0 8px 32px 0 rgba(34,34,34,0.18)';
-  modal.style.color = '#111';
-  modal.style.padding = '2.2rem';
-  modal.style.position = 'relative';
-  modal.innerHTML = `
-    <h2 style="text-align:center;">Central de Ajuda</h2>
-    <div style="margin-bottom:1.2rem;text-align:left;font-size:1rem;">
-      <b>Dúvidas frequentes:</b>
-      <ul style="margin:0.7rem 0 1.2rem 1.2rem;padding:0;">
-        <li>Como criar uma conta?</li>
-        <li>Como recuperar minha senha?</li>
-        <li>Como comprar um produto?</li>
-      </ul>
-      <b>Precisa de mais ajuda?</b><br>
-      Envie um e-mail para <a href="mailto:suporte@infinitypro.com" style="color:#111;text-decoration:underline;">suporte@infinitypro.com</a>
-      <br>ou utilize o botão de contato ao lado para falar conosco.
-    </div>
-    <button id="fecharAjuda" style="background:#fff;color:#111;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:1.5px solid #111;">Fechar</button>
-  `;
-  overlay.appendChild(modal);
-  document.body.appendChild(overlay);
-  modal.querySelector('#fecharAjuda').onclick = () => overlay.remove();
+  abrirModalCentral(
+    'Central de Ajuda',
+    `<b>Dúvidas frequentes:</b>
+    <ul style="margin:0.7rem 0 1.2rem 1.2rem;padding:0;">
+      <li>Como criar uma conta?</li>
+      <li>Como recuperar minha senha?</li>
+      <li>Como comprar um produto?</li>
+    </ul>
+    <b>Precisa de mais ajuda?</b><br>
+    Envie um e-mail para <a href="mailto:suporte@infinitypro.com" style="color:#111;text-decoration:underline;">suporte@infinitypro.com</a>
+    <br>ou utilize o botão de contato ao lado para falar conosco.`
+  );
 };
 
 document.getElementById('sidebar-contato').onclick = () => {
-  // Abre um modal central com formulário de contato e mensagem de confirmação
+  removerOverlays();
   let overlay = document.createElement('div');
+  overlay.className = 'modal-overlay-custom';
   overlay.style.position = 'fixed';
   overlay.style.top = 0;
   overlay.style.left = 0;
