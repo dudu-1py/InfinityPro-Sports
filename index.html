@@ -272,8 +272,8 @@
 </head>
 <body>
   <!-- Logo no canto superior esquerdo -->
-  <img src="C:/site loja/logo.png" alt="Logo InfinityPro Sports" 
-       style="position:fixed; top:18px; left:18px; width:54px; height:auto; z-index:1001; border-radius:12px; box-shadow:0 2px 8px #0002;">
+  <!-- <img src="C:/site loja/logo.png" alt="Logo InfinityPro Sports" 
+       style="position:fixed; top:18px; left:18px; width:54px; height:auto; z-index:1001; border-radius:12px; box-shadow:0 2px 8px #0002;"> -->
   <main id="app"></main>
   <template id="login-template">
     <div style="text-align:center; margin-bottom: 1.5rem;">
@@ -281,15 +281,16 @@
     </div>
     <h2 style="text-align:center;">Faça Login</h2>
     <div style="display:flex; flex-direction:column; align-items:center; gap:0.8rem;">
-      <input type="text" id="user" placeholder="Usuário" autocomplete="username" style="width: 80%;" />
+      <input type="text" id="user" placeholder="Usuário" autocomplete="username" style="width: 80%" />
       <div class="senha-container" style="width: 80%;">
-        <input type="password" id="pass" placeholder="Senha" autocomplete="current-password" style="width:100%;" />
+        <input type="password" id="pass" placeholder="Senha" autocomplete="current-password" style="width:100%" />
         <button type="button" id="togglePass" aria-label="Mostrar senha">👁️</button>
       </div>
-      <button id="btnLogin" style="width: 80%;">Entrar</button>
+      <button id="btnLogin" style="width: 80%">Entrar</button>
       <button id="btnCriarConta" style="width: 80%; background:#111; color:#fff; margin-top:0.5rem;">Criar nova conta</button>
-      <div class="error" id="error-msg" style="width: 80%;">Usuário ou senha inválidos</div>
-      <div class="notificacao" id="notificacao-login" style="width: 80%;">Login realizado com sucesso!</div>
+      <button id="btnRecuperarSenhaLogin" style="width: 80%; background:#fff; color:#111; border:1.5px solid #111; margin-top:0.5rem;">Esqueci minha senha</button>
+      <div class="error" id="error-msg" style="width: 80%">Usuário ou senha inválidos</div>
+      <div class="notificacao" id="notificacao-login" style="width: 80%;background:#111;color:#fff;">Login realizado com sucesso!</div>
     </div>
   </template>
   <template id="criar-conta-template">
@@ -305,7 +306,7 @@
     <button id="btnSalvarConta">Salvar</button>
     <button id="btnVoltarLogin" style="margin-top:0.5rem;background:#fff;color:#000;">Voltar ao login</button>
     <div class="error" id="criar-erro-msg"></div>
-    <div class="notificacao" id="notificacao-criar">Conta criada com sucesso!</div>
+    <div class="notificacao" id="notificacao-criar" style="background:#111;color:#fff;">Conta criada com sucesso!</div>
   </template>
   <template id="loja-template">
   <div class="header-loja" style="position:relative;">
@@ -446,6 +447,7 @@
       };
 
       document.getElementById('btnCriarConta').onclick = renderCriarConta;
+      document.getElementById('btnRecuperarSenhaLogin').onclick = abrirRecuperarSenhaModal;
 
       // Olho para visualizar senha
       const passInput = document.getElementById('pass');
@@ -556,12 +558,12 @@
       modal.style.borderBottomLeftRadius = '18px';
       modal.style.width = '370px';
       modal.style.maxWidth = '95vw';
-      modal.style.height = '55vh';
-      modal.style.boxShadow = '-4px 0 32px #000a, 0 0 0 4px #ffd70055';
-      modal.style.color = '#ffd700';
+      modal.style.height = 'auto';
+      modal.style.boxShadow = '-4px 0 32px #000a, 0 0 0 4px #1112';
+      modal.style.color = '#fff';
       modal.style.textAlign = 'left';
       modal.style.padding = '2.2rem 2.2rem 2.2rem 2.5rem';
-      modal.style.display = 'table';
+      modal.style.display = 'flex';
       modal.style.flexDirection = 'column';
       modal.style.justifyContent = 'flex-start';
       modal.style.position = 'relative';
@@ -580,33 +582,18 @@
       let ultimoLogin = logins[usuario.username] || 'Primeiro acesso';
 
       modal.innerHTML = `
-        <h2 style="margin-bottom:1.2rem;font-size:1.5rem;">Perfil do Usuário</h2>
+        <h2 style="margin-bottom:1.2rem;font-size:1.5rem;color:#fff;">Perfil do Usuário</h2>
         <div style="margin-bottom:1.1rem;">
-          <strong>Usuário:</strong> <span>${usuario.username}</span>
+          <strong>Usuário:</strong> <span style="color:#fff;">${usuario.username}</span>
         </div>
         <div style="margin-bottom:1.1rem;">
-          <strong>ID:</strong> <span>${gerarId(usuario.username)}</span>
+          <strong>ID:</strong> <span style="color:#fff;">${gerarId(usuario.username)}</span>
         </div>
         <div style="margin-bottom:1.1rem;">
-          <strong>Último login:</strong> <span>${ultimoLogin}</span>
+          <strong>Último login:</strong> <span style="color:#fff;">${ultimoLogin}</span>
         </div>
-        <div style="margin-bottom:1.1rem;">
-          <strong>Recuperação de senha:</strong>
-          <div style="margin-top:0.3rem;">
-            <input id="recuperaEmail" type="email" placeholder="Seu e-mail" style="width:100%;padding:0.5rem;border-radius:8px;border:none;background:#222244;color:#ffd700;margin-bottom:0.5rem;">
-            <button id="btnRecuperarSenha" style="background:#ffd700;color:#181840;font-weight:700;padding:0.5rem 1rem;border-radius:8px;cursor:pointer;border:none;">Enviar link</button>
-            <div id="msgRecuperaSenha" style="font-size:0.95rem;color:#ffd700;margin-top:0.5rem;display:none;">Link de recuperação enviado!</div>
-          </div>
-        </div>
-        <div style="margin-bottom:1.1rem;">
-          <strong>Suporte:</strong>
-          <div style="margin-top:0.3rem;">
-            <button id="btnSuporte" style="background:#ffd700;color:#181840;font-weight:700;padding:0.5rem 1rem;border-radius:8px;cursor:pointer;border:none;">Falar com o suporte</button>
-            <div id="msgSuporte" style="font-size:0.95rem;color:#ffd700;margin-top:0.5rem;display:none;">Em breve você será atendido!</div>
-          </div>
-        </div>
-        <button id="btnSairConta" style="background:#b8860b;color:#fff;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:none;margin-top:1.5rem;">Sair</button>
-        <button id="fecharPerfilConta" style="background:#ffd700;color:#181840;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:none;margin-top:0.7rem;">Fechar</button>
+        <button id="btnSairConta" style="background:#111;color:#fff;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:none;margin-top:2.5rem;">Sair da conta</button>
+        <button id="fecharPerfilConta" style="background:#fff;color:#111;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:1.5px solid #111;margin-top:0.7rem;">Fechar</button>
       `;
 
       const style = document.createElement('style');
@@ -642,30 +629,128 @@
           renderLogin();
         }, 350);
       };
+    }
 
-      document.getElementById('btnRecuperarSenha').onclick = () => {
-        const email = document.getElementById('recuperaEmail').value.trim();
-        const msg = document.getElementById('msgRecuperaSenha');
-        if (email && email.includes('@')) {
-          msg.style.display = 'block';
-          msg.textContent = 'Link de recuperação enviado!';
-        } else {
-          msg.style.display = 'block';
-          msg.textContent = 'Digite um e-mail válido.';
+    // Nova função para configurações
+    function renderConfigConta() {
+      let overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.top = 0;
+      overlay.style.left = 0;
+      overlay.style.width = '100vw';
+      overlay.style.height = '100vh';
+      overlay.style.background = 'rgba(10,10,30,0.55)';
+      overlay.style.zIndex = 99999;
+      overlay.style.display = 'flex';
+      overlay.style.alignItems = 'stretch';
+      overlay.style.justifyContent = 'flex-end';
+
+      let modal = document.createElement('div');
+      modal.style.background = '#fff';
+      modal.style.borderTopLeftRadius = '18px';
+      modal.style.borderBottomLeftRadius = '18px';
+      modal.style.width = '370px';
+      modal.style.maxWidth = '95vw';
+      modal.style.height = 'auto';
+      modal.style.boxShadow = '-4px 0 32px #000a, 0 0 0 4px #1112';
+      modal.style.color = '#111';
+      modal.style.textAlign = 'left';
+      modal.style.padding = '2.2rem 2.2rem 2.2rem 2.5rem';
+      modal.style.display = 'flex';
+      modal.style.flexDirection = 'column';
+      modal.style.justifyContent = 'flex-start';
+      modal.style.position = 'relative';
+      modal.style.animation = 'slideInConta 0.4s cubic-bezier(.7,1.7,.7,1)';
+
+      modal.innerHTML = `
+        <h2 style="margin-bottom:1.2rem;font-size:1.5rem;color:#111;">Configurações</h2>
+        <div style="margin-bottom:1.1rem;">
+          <strong>Escala da tela:</strong>
+          <div style="margin-top:0.3rem;">
+            <button id="escalaMenor" style="background:#fff;color:#111;border:1.5px solid #111;border-radius:8px;padding:0.4rem 1rem;margin-right:0.5rem;">A-</button>
+            <button id="escalaPadrao" style="background:#fff;color:#111;border:1.5px solid #111;border-radius:8px;padding:0.4rem 1rem;margin-right:0.5rem;">A</button>
+            <button id="escalaMaior" style="background:#fff;color:#111;border:1.5px solid #111;border-radius:8px;padding:0.4rem 1rem;">A+</button>
+          </div>
+        </div>
+        <div style="margin-bottom:1.1rem;">
+          <strong>Tema:</strong>
+          <div style="margin-top:0.3rem;">
+            <button id="temaClaro" style="background:#fff;color:#111;border:1.5px solid #111;border-radius:8px;padding:0.4rem 1rem;margin-right:0.5rem;">Claro</button>
+            <button id="temaEscuro" style="background:#111;color:#fff;border:1.5px solid #111;border-radius:8px;padding:0.4rem 1rem;">Escuro</button>
+          </div>
+        </div>
+        <button id="fecharConfigConta" style="background:#fff;color:#111;font-weight:700;padding:0.7rem 1.5rem;border-radius:12px;cursor:pointer;border:1.5px solid #111;margin-top:1.5rem;">Fechar</button>
+      `;
+
+      const style = document.createElement('style');
+      style.innerHTML = `
+        @keyframes slideInConta {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
         }
+        @keyframes slideOutConta {
+          from { transform: translateX(0); opacity: 1; }
+          to { transform: translateX(100%); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+
+      // Escala de tela
+      document.getElementById('escalaMenor').onclick = () => {
+        document.body.style.fontSize = '90%';
+        localStorage.setItem('escalaTela', '90');
+      };
+      document.getElementById('escalaPadrao').onclick = () => {
+        document.body.style.fontSize = '100%';
+        localStorage.setItem('escalaTela', '100');
+      };
+      document.getElementById('escalaMaior').onclick = () => {
+        document.body.style.fontSize = '115%';
+        localStorage.setItem('escalaTela', '115');
       };
 
-      document.getElementById('btnSuporte').onclick = () => {
-        const msg = document.getElementById('msgSuporte');
-        msg.style.display = 'block';
-        msg.textContent = 'Em breve você será atendido!';
+      // Tema claro/escuro
+      document.getElementById('temaClaro').onclick = () => {
+        document.body.style.background = '#f5f5f5';
+        document.body.style.color = '#111';
+        document.getElementById('app').style.background = '#fff';
+        document.getElementById('app').style.color = '#111';
+        localStorage.setItem('tema', 'claro');
+      };
+      document.getElementById('temaEscuro').onclick = () => {
+        document.body.style.background = '#181820';
+        document.body.style.color = '#fff';
+        document.getElementById('app').style.background = '#222233';
+        document.getElementById('app').style.color = '#fff';
+        localStorage.setItem('tema', 'escuro');
+      };
+
+      document.getElementById('fecharConfigConta').onclick = () => {
+        modal.style.animation = 'slideOutConta 0.35s cubic-bezier(.7,1.7,.7,1)';
+        setTimeout(() => {
+          document.body.removeChild(overlay);
+          style.remove();
+        }, 350);
       };
     }
 
-    // Adicione uma variável global para controlar o retorno após login
-    let acaoAposLogin = null;
+    // Aplique escala e tema salvos ao carregar
+    (function () {
+      const escala = localStorage.getItem('escalaTela');
+      if (escala) document.body.style.fontSize = escala + '%';
+      const tema = localStorage.getItem('tema');
+      if (tema === 'escuro') {
+        document.body.style.background = '#181820';
+        document.body.style.color = '#fff';
+        document.getElementById('app').style.background = '#222233';
+        document.getElementById('app').style.color = '#fff';
+      }
+    })();
 
-    // Altere a função renderLoja para só pedir login ao tentar comprar
+    // Atualize os botões na renderLoja:
     function renderLoja() {
       app.innerHTML = '';
       const template = document.getElementById('loja-template').content.cloneNode(true);
@@ -688,7 +773,6 @@
           const user = sessionStorage.getItem('usuarioLogado');
           if (!user) {
             acaoAposLogin = () => {
-              // Após login, simula compra (pode mostrar notificação ou modal)
               alert('Compra realizada com sucesso!');
             };
             abrirLoginModal();
@@ -703,19 +787,7 @@
       const usuarioLogado = usuarios.find(u => u.username === user);
 
       document.getElementById('btnConfig').onclick = () => {
-        if (usuarioLogado) {
-          renderPerfilConta(usuarioLogado);
-        }
-        else {
-          acaoAposLogin = () => {
-            const user = sessionStorage.getItem('usuarioLogado');
-            const usuarioLogado = usuarios.find(u => u.username === user);
-            if (usuarioLogado) {
-              renderPerfilConta(usuarioLogado);
-            }
-          };
-          abrirLoginModal();
-        }
+        renderConfigConta();
       };
       document.getElementById('btnPerfil').onclick = () => {
         if (usuarioLogado) {
@@ -723,7 +795,6 @@
         }
       };
     }
-
     // Função para abrir o login como modal
     function abrirLoginModal() {
       // Remove modais antigos se existirem
@@ -774,6 +845,7 @@
           </div>
           <button id="btnModalLogin" type="submit" style="margin-top:auto;">Entrar</button>
           <button id="btnModalFechar" type="button" style="margin-top:0.7rem;background:#000;color:#fff;">Cancelar</button>
+          <button id="btnModalRecuperarSenha" type="button" style="margin-top:0.5rem;background:#fff;color:#111;border:1.5px solid #111;">Esqueci minha senha</button>
           <div class="error" id="modal-error-msg" style="display:none;">Usuário ou senha inválidos</div>
           <div class="notificacao" id="modal-loading-msg" style="display:none;background:#111;color:#ffd700;">Entrando...</div>
         </form>
@@ -871,6 +943,61 @@
       // Clique fora do modal fecha
       overlay.onclick = (e) => {
         if (e.target === overlay) fecharModal();
+      };
+
+      const btnRecSenha = modal.querySelector('#btnModalRecuperarSenha');
+      if (btnRecSenha) btnRecSenha.onclick = abrirRecuperarSenhaModal;
+    }
+
+    function abrirRecuperarSenhaModal() {
+      // Remove modais antigos se existirem
+      document.querySelectorAll('.modal-overlay-login').forEach(el => el.remove());
+
+      let overlay = document.createElement('div');
+      overlay.className = 'modal-overlay-login';
+      overlay.style.position = 'fixed';
+      overlay.style.top = 0;
+      overlay.style.left = 0;
+      overlay.style.width = '100vw';
+      overlay.style.height = '100vh';
+      overlay.style.background = 'rgba(10,10,30,0.55)';
+      overlay.style.zIndex = 99999;
+      overlay.style.display = 'flex';
+      overlay.style.alignItems = 'center';
+      overlay.style.justifyContent = 'center';
+
+      let modal = document.createElement('div');
+      modal.style.background = '#fff';
+      modal.style.borderRadius = '18px';
+      modal.style.width = '100%';
+      modal.style.maxWidth = '370px';
+      modal.style.boxShadow = '0 8px 32px 0 rgba(34,34,34,0.18)';
+      modal.style.color = '#111';
+      modal.style.padding = '2.2rem';
+      modal.style.position = 'relative';
+
+      modal.innerHTML = `
+        <h2 style="text-align:center;">Recuperar Senha</h2>
+        <input type="email" id="recuperaEmailModal" placeholder="Seu e-mail" style="width:100%;padding:0.7rem;margin-bottom:1rem;border-radius:8px;border:1.5px solid #111;">
+        <button id="btnEnviarRecuperacao" style="width:100%;background:#111;color:#fff;font-weight:700;padding:0.7rem 0;border-radius:8px;margin-bottom:0.7rem;">Enviar link de recuperação</button>
+        <button id="btnFecharRecuperacao" style="width:100%;background:#fff;color:#111;border:1.5px solid #111;">Cancelar</button>
+        <div id="msgRecuperaSenhaModal" style="font-size:0.95rem;color:#111;margin-top:0.5rem;display:none;text-align:center;"></div>
+      `;
+
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+
+      modal.querySelector('#btnFecharRecuperacao').onclick = () => overlay.remove();
+      modal.querySelector('#btnEnviarRecuperacao').onclick = () => {
+        const email = modal.querySelector('#recuperaEmailModal').value.trim();
+        const msg = modal.querySelector('#msgRecuperaSenhaModal');
+        if (email && email.includes('@')) {
+          msg.style.display = 'block';
+          msg.textContent = 'Link de recuperação enviado!';
+        } else {
+          msg.style.display = 'block';
+          msg.textContent = 'Digite um e-mail válido.';
+        }
       };
     }
     // Inicia a aplicação renderizando o login
