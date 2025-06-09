@@ -128,12 +128,15 @@
       align-items: center;
       text-align: center;
       font-weight: 700;
-      font-size: 1.8rem;
+      font-size: 2.5rem; /* aumentado de 1.8rem para 2.5rem */
       letter-spacing: 2px;
       position: relative;
       min-height: 220px;
       box-shadow: 0 2px 12px 0 rgba(34,34,34,0.10);
     }
+    .banner-marca > div {
+  font-size: 1.5rem !important; /* aumentado de 1.2rem */
+}
 
     .produtos-grid {
       display: grid;
@@ -416,7 +419,7 @@ body {
     -->
   </div>
   <div class="banner-marca">
-    Melhores tenis para o seu esporte!
+    Melhores tênis para o seu esporte!
     <div style="font-size: 1.2rem; margin-top: 0.5rem; font-style: italic;">
       Tênis premium para quem joga com habilidade
     </div>
@@ -424,7 +427,7 @@ body {
   <div class="produtos-grid"></div>
 </template>
   <script>
-    const userDB = { username: "desenvolvedor", password: "dev123" };
+    // Função para gerar produtos multiplicados
 
 function gerarProdutos(baseProdutos, multiplicador) {
   const produtosMultiplicados = [];
@@ -500,7 +503,7 @@ const produtosBase = [
 ];
 
 // Multiplicador desejado (exemplo: 3x mais produtos)
-const produtos = gerarProdutos(produtosBase, 3);
+const produtos = gerarProdutos(produtosBase, 4);
 
     const app = document.getElementById('app');
 
@@ -898,6 +901,10 @@ const produtos = gerarProdutos(produtosBase, 3);
             alert('Compra realizada com sucesso!');
           }
         };
+
+        card.onclick = () => {
+  renderPaginaProduto(p);
+};
       });
 
       const usuarios = getUsuariosDB();
@@ -1368,6 +1375,86 @@ document.getElementById('sidebar-contato').onclick = () => {
     setTimeout(() => overlay.remove(), 1500);
   };
 };
+
+function renderPaginaProduto(produto) {
+  // Exemplo de galeria: se quiser mais imagens, adicione no objeto produto (ex: produto.imgs = [url1, url2, ...])
+  const imagens = produto.imgs || [produto.img];
+  let tamanhos = produto.tamanhos || ['36', '37', '38', '39', '40', '41', '42', '43'];
+  let descricaoLonga = produto.descricaoLonga || "Produto original, envio rápido e garantia de fábrica. Ideal para quem busca performance, conforto e estilo em qualquer ocasião esportiva.";
+
+  app.innerHTML = `
+    <nav style="font-size:1rem;color:#888;margin-bottom:1.2rem;">
+      <a href="#" onclick="renderLoja();return false;" style="color:#888;text-decoration:underline;">Início</a> &gt; 
+      <span style="color:#111;">${produto.nome}</span>
+    </nav>
+    <div style="max-width:1100px;margin:0 auto;padding:2rem 1rem;">
+      <div style="display:flex;flex-wrap:wrap;gap:2.5rem;align-items:flex-start;">
+        <div style="flex:1 1 340px;max-width:420px;">
+          <div style="margin-bottom:1.2rem;">
+            <img id="imgPrincipalProduto" src="${imagens[0]}" alt="${produto.nome}" style="width:100%;max-width:400px;border-radius:18px;box-shadow:0 4px 24px #0002;">
+          </div>
+          <div style="display:flex;gap:0.7rem;">
+            ${imagens.map((img, i) => `
+              <img src="${img}" alt="Miniatura ${i+1}" style="width:54px;height:54px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid #eee;" onclick="document.getElementById('imgPrincipalProduto').src='${img}'">
+            `).join('')}
+          </div>
+        </div>
+        <div style="flex:2 1 320px;min-width:260px;">
+          <h1 style="font-size:2.2rem;font-weight:900;letter-spacing:1.5px;margin-bottom:0.7rem;color:#111;">${produto.nome}</h1>
+          <div style="font-size:1.15rem;color:#444;margin-bottom:1.2rem;">${produto.desc}</div>
+          <div style="font-size:2rem;font-weight:900;color:#111;margin-bottom:1.5rem;">${produto.preco}</div>
+          <div style="margin-bottom:1.2rem;">
+            <b>Tamanho:</b>
+            <div id="tamanhosProduto" style="display:flex;gap:0.5rem;margin-top:0.5rem;">
+              ${tamanhos.map(t => `<button type="button" class="btn-tamanho" data-tam="${t}" style="padding:0.6rem 1.2rem;border-radius:8px;border:1.5px solid #111;background:#fff;color:#111;font-weight:700;cursor:pointer;">${t}</button>`).join('')}
+            </div>
+          </div>
+          <button id="btnComprarProduto" style="background:#111;color:#fff;font-weight:700;padding:1rem 2.5rem;border-radius:12px;font-size:1.2rem;cursor:pointer;border:none;margin-bottom:1.2rem;">Comprar</button>
+          <div id="msgCompraProduto" style="display:none;margin-top:1.2rem;font-size:1.1rem;color:#008000;font-weight:700;">Compra realizada com sucesso!</div>
+          <hr style="margin:2.5rem 0 1.5rem 0;border:0;border-top:1.5px solid #eee;">
+          <div style="color:#666;font-size:1rem;margin-bottom:1.2rem;">
+            <b>Entrega:</b> Envio para todo o Brasil.<br>
+            <b>Pagamento:</b> Cartão, Pix ou boleto.<br>
+            <b>Garantia:</b> Produto original com garantia do fabricante.
+          </div>
+          <div style="color:#444;font-size:1.05rem;margin-bottom:1.2rem;">
+            <b>Descrição:</b><br>
+            ${descricaoLonga}
+          </div>
+          <button onclick="renderLoja()" style="margin-top:1.5rem;background:#fff;color:#111;border:1.5px solid #111;padding:0.6rem 1.5rem;border-radius:8px;cursor:pointer;">&larr; Voltar para loja</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Seleção de tamanho
+  let selecionado = null;
+  document.querySelectorAll('.btn-tamanho').forEach(btn => {
+    btn.onclick = function() {
+      document.querySelectorAll('.btn-tamanho').forEach(b => b.style.background = '#fff');
+      this.style.background = '#111';
+      this.style.color = '#fff';
+      selecionado = this.getAttribute('data-tam');
+    };
+  });
+
+  // Botão comprar
+  document.getElementById('btnComprarProduto').onclick = () => {
+    if (!selecionado) {
+      alert('Selecione um tamanho antes de comprar!');
+      return;
+    }
+    const user = sessionStorage.getItem('usuarioLogado');
+    if (!user) {
+      acaoAposLogin = () => {
+        document.getElementById('msgCompraProduto').style.display = 'block';
+      };
+      abrirLoginModal();
+    } else {
+      document.getElementById('msgCompraProduto').style.display = 'block';
+    }
+  };
+}
   </script>
 </body>
 </html>
