@@ -479,11 +479,12 @@ header#navigationHeader {
     </a>
     <!-- Menu de navegação -->
     <nav>
-      <a href="#" onclick="renderLoja();return false;">Lançamentos</a>
-      <a href="#" onclick="renderLoja();return false;">Masculino</a>
-      <a href="#" onclick="renderLoja();return false;">Feminino</a>
-      <a href="#" onclick="renderLoja();return false;">Infantil</a>
-      <a href="#" onclick="renderLoja();return false;">Ofertas</a>
+      <a href="#" onclick="renderLoja();return false;">Home</a>
+      <a href="#" onclick="renderLancamentos();return false;">Lançamentos</a>
+      <a href="#" onclick="renderMasculino();return false;">Masculino</a>
+      <a href="#" onclick="renderFeminino();return false;">Feminino</a>
+      <a href="#" onclick="renderInfantil();return false;">Infantil</a>
+      <a href="#" onclick="renderOfertas();return false;">Ofertas</a>
     </nav>
     <!-- Busca, favoritos e sacola -->
     <div class="acoes">
@@ -1255,7 +1256,7 @@ const produtos = gerarProdutos(produtosBase, 4);
       };
     }
     // Inicia a aplicação renderizando o login
-    renderLoja();
+    renderLoja() = renderInicio();
 
 // Certifique-se de que este bloco está após a definição dos elementos HTML da barra lateral
 
@@ -1581,6 +1582,178 @@ function renderPaginaProduto(produto) {
       document.getElementById('msgCompraProduto').style.display = 'block';
     }
   };
+}
+
+function renderLancamentos() {
+  app.innerHTML = `
+    <div class="header-loja"><h2>Lançamentos</h2></div>
+    <div class="banner-marca">Confira os lançamentos mais recentes!</div>
+    <div class="produtos-grid"></div>
+  `;
+  // Exemplo: filtra produtos por nome ou categoria se desejar
+  const grid = document.querySelector('.produtos-grid');
+  produtos.slice(0, 6).forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'card-produto';
+    card.innerHTML = `
+      <img src="${p.img}" alt="${p.nome}" />
+      <div class="produto-nome">${p.nome}</div>
+      <div class="produto-desc">${p.desc}</div>
+      <div class="produto-preco">${p.preco}</div>
+      <button class="btn-comprar">Comprar</button>
+    `;
+    grid.appendChild(card);
+    card.querySelector('.btn-comprar').onclick = (e) => {
+      e.stopPropagation();
+      const user = sessionStorage.getItem('usuarioLogado');
+      if (!user) {
+        acaoAposLogin = () => {
+          alert('Compra realizada com sucesso!');
+        };
+        abrirLoginModal();
+      } else {
+        alert('Compra realizada com sucesso!');
+      }
+    };
+    card.onclick = () => renderPaginaProduto(p);
+  });
+}
+
+function renderMasculino() {
+  app.innerHTML = `
+    <div class="header-loja"><h2>Masculino</h2></div>
+    <div class="banner-marca">Produtos para o público masculino!</div>
+    <div class="produtos-grid"></div>
+  `;
+  const grid = document.querySelector('.produtos-grid');
+  produtos.filter(p => p.nome.toLowerCase().includes('masculino')).forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'card-produto';
+    card.innerHTML = `
+      <img src="${p.img}" alt="${p.nome}" />
+      <div class="produto-nome">${p.nome}</div>
+      <div class="produto-desc">${p.desc}</div>
+      <div class="produto-preco">${p.preco}</div>
+      <button class="btn-comprar">Comprar</button>
+    `;
+    grid.appendChild(card);
+    card.querySelector('.btn-comprar').onclick = (e) => {
+      e.stopPropagation();
+      const user = sessionStorage.getItem('usuarioLogado');
+      if (!user) {
+        acaoAposLogin = () => {
+          alert('Compra realizada com sucesso!');
+        };
+        abrirLoginModal();
+      } else {
+        alert('Compra realizada com sucesso!');
+      }
+    };
+    card.onclick = () => renderPaginaProduto(p);
+  });
+}
+
+function renderFeminino() {
+  app.innerHTML = `
+    <div class="header-loja"><h2>Feminino</h2></div>
+    <div class="banner-marca">Produtos para o público feminino!</div>
+    <div class="produtos-grid"></div>
+  `;
+  const grid = document.querySelector('.produtos-grid');
+  produtos.filter(p => p.nome.toLowerCase().includes('feminina')).forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'card-produto';
+    card.innerHTML = `
+      <img src="${p.img}" alt="${p.nome}" />
+      <div class="produto-nome">${p.nome}</div>
+      <div class="produto-desc">${p.desc}</div>
+      <div class="produto-preco">${p.preco}</div>
+      <button class="btn-comprar">Comprar</button>
+    `;
+    grid.appendChild(card);
+    card.querySelector('.btn-comprar').onclick = (e) => {
+      e.stopPropagation();
+      const user = sessionStorage.getItem('usuarioLogado');
+      if (!user) {
+        acaoAposLogin = () => {
+          alert('Compra realizada com sucesso!');
+        };
+        abrirLoginModal();
+      } else {
+        alert('Compra realizada com sucesso!');
+      }
+    };
+    card.onclick = () => renderPaginaProduto(p);
+  });
+}
+
+function renderInfantil() {
+  app.innerHTML = `
+    <div class="header-loja"><h2>Infantil</h2></div>
+    <div class="banner-marca">Linha infantil para os pequenos atletas!</div>
+    <div class="produtos-grid"></div>
+  `;
+  const grid = document.querySelector('.produtos-grid');
+  produtos.filter(p => p.nome.toLowerCase().includes('infantil')).forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'card-produto';
+    card.innerHTML = `
+      <img src="${p.img}" alt="${p.nome}" />
+      <div class="produto-nome">${p.nome}</div>
+      <div class="produto-desc">${p.desc}</div>
+      <div class="produto-preco">${p.preco}</div>
+      <button class="btn-comprar">Comprar</button>
+    `;
+    grid.appendChild(card);
+    card.querySelector('.btn-comprar').onclick = (e) => {
+      e.stopPropagation();
+      const user = sessionStorage.getItem('usuarioLogado');
+      if (!user) {
+        acaoAposLogin = () => {
+          alert('Compra realizada com sucesso!');
+        };
+        abrirLoginModal();
+      } else {
+        alert('Compra realizada com sucesso!');
+      }
+    };
+    card.onclick = () => renderPaginaProduto(p);
+  });
+}
+
+function renderOfertas() {
+  app.innerHTML = `
+    <div class="header-loja"><h2>Ofertas</h2></div>
+    <div class="banner-marca">Aproveite as melhores ofertas!</div>
+    <div class="produtos-grid"></div>
+  `;
+  const grid = document.querySelector('.produtos-grid');
+  // Exemplo: ofertas são os 3 primeiros produtos
+  produtos.slice(0, 3).forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'card-produto';
+    card.innerHTML = `
+      <img src="${p.img}" alt="${p.nome}" />
+      <div class="produto-nome">${p.nome}</div>
+      <div class="produto-desc">${p.desc}</div>
+      <div class="produto-preco">${p.preco}</div>
+      <button class="btn-comprar">Comprar</button>
+    `;
+    grid.appendChild(card);
+    card.querySelector('.btn-comprar').onclick = (e) => {
+      e.stopPropagation();
+      const user = sessionStorage.getItem('usuarioLogado');
+      if (!user) {
+        acaoAposLogin = () => {
+          alert('Compra realizada com sucesso!');
+        };
+        abrirLoginModal();
+      } else {
+        alert('Compra realizada com sucesso!');
+      }
+    };
+    card.onclick = () => renderPaginaProduto(p);
+  });
 }
   </script>
 </body>
