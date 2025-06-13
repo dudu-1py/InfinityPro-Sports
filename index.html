@@ -479,7 +479,7 @@ header#navigationHeader {
     </a>
     <!-- Menu de navegação -->
     <nav>
-      <a href="#" onclick="renderLoja();return false;">Home</a>
+      <a href="#" onclick="renderLoja();return false;">Início</a>
       <a href="#" onclick="renderLancamentos();return false;">Lançamentos</a>
       <a href="#" onclick="renderMasculino();return false;">Masculino</a>
       <a href="#" onclick="renderFeminino();return false;">Feminino</a>
@@ -511,19 +511,19 @@ header#navigationHeader {
     </div>
     <h2 style="text-align:center;">Faça Login</h2>
     <div style="display:flex; flex-direction:column; align-items:center; gap:0.8rem;">
-      <input type="text" id="user" placeholder="Usuário" autocomplete="username" style="width: 80%" />
-      <div class="senha-container" style="width: 80%;">
+      <input type="text" id="user" placeholder="Usuário" autocomplete="username" style="width: 50%" />
+      <div class="senha-container" style="width: 50%;">
         <input type="password" id="pass" placeholder="Senha" autocomplete="current-password" style="width:100%" />
         <button type="button" id="togglePass" aria-label="Mostrar senha">👁️</button>
       </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; width: 80%; margin-top: 0.5rem;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; width: 50%; margin-top: 0.5rem;">
         <button id="btnLogin" style="width:100%;">Entrar</button>
         <button id="btnCriarConta" style="width:100%; background:#111; color:#fff;">Criar sua conta</button>
         <button id="btnRecuperarSenhaLogin" style="width:100%; background:#fff; color:#111; border:1.5px solid #111;">Esqueci minha senha</button>
         <button id="btnCancelarLogin" style="width:100%; background:#fff; color:#111; border:1.5px solid #111;">Cancelar</button>
       </div>
-      <div class="error" id="error-msg" style="width: 80%">Usuário ou senha inválidos</div>
-      <div class="notificacao" id="notificacao-login" style="width: 80%;background:#111;color:#fff;">Login realizado com sucesso!</div>
+      <div class="error" id="error-msg" style="width: 50%">Usuário ou senha inválidos</div>
+      <div class="notificacao" id="notificacao-login" style="width: 50%;background:#111;color:#fff;">Login realizado com sucesso!</div>
     </div>
   </template>
   <template id="criar-conta-template">
@@ -1754,6 +1754,134 @@ function renderOfertas() {
     };
     card.onclick = () => renderPaginaProduto(p);
   });
+}
+
+// Adicione este bloco ao seu script principal
+
+// Carrinho de compras (array de objetos {produto, tamanho})
+let carrinho = JSON.parse(localStorage.getItem('carrinhoLoja')) || [];
+
+// Função para salvar o carrinho no localStorage
+function salvarCarrinho() {
+  localStorage.setItem('carrinhoLoja', JSON.stringify(carrinho));
+}
+
+// Função para adicionar produto ao carrinho
+function adicionarAoCarrinho(produto, tamanhoSelecionado = null) {
+  carrinho.push({ produto, tamanho: tamanhoSelecionado });
+  salvarCarrinho();
+  mostrarNotificacaoCarrinho('Produto adicionado ao carrinho!');
+}
+
+// Notificação simples para feedback
+function mostrarNotificacaoCarrinho(msg) {
+  let notif = document.createElement('div');
+  notif.className = 'notificacao';
+  notif.style.display = 'block';
+  notif.textContent = msg;
+  document.body.appendChild(notif);
+  setTimeout(() => notif.remove(), 1800);
+}
+
+// Função para renderizar a página do carrinho
+function renderCarrinho() {
+  app.innerHTML = `
+    <div class="header-loja"><h2>Carrinho de Compras</h2></div>
+    <div class="banner-marca" style="font-size:1.5rem;">Confira seus produtos antes de finalizar a compra!</div>
+    <div id="carrinho-lista" style="margin:2rem 0;"></div>
+    <div style="display:flex;gap:1rem;justify-content:center;">
+      <button id="btnFinalizarCompra" style="background:#111;color:#fff;font-weight:700;padding:1rem 2.5rem;border-radius:12px;font-size:1.2rem;cursor:pointer;border:none;">Comprar</button>
+      <button id="btnLimparCarrinho" style="background:#fff;color:#111;border:1.5px solid #111;font-weight:700;padding:1rem 2.5rem;border-radius:12px;font-size:1.2rem;cursor:pointer;">Limpar</button>
+    </div>
+    <div id="msgCarrinho" style="margin-top:2rem;text-align:center;font-size:1.2rem;color:#008000;font-weight:700;display:none;"></div>
+  `;
+
+  const lista = document.getElementById('carrinho-lista');
+  if (carrinho.length === 0) {
+    lista.innerHTML = `<div style="text-align:center;color:#888;font-size:1.2rem;">Seu carrinho está vazio.</div>`;
+    document.getElementById('btnFinalizarCompra').disabled = true;
+    document.getElementById('btnLimparCarrinho').disabled = true;
+    return;
+  }
+
+  let total = 0;
+  lista.innerHTML = carrinho.map((item, idx) => {
+    // Extrai valor numérico do preço
+    let precoNum = parseFloat(item.produto.preco.replace(/[^\d,]/g, '').replace(',', '.'));
+    total += precoNum;
+    return `
+      <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:1.2rem;background:#fafafa;padding:1rem 1.2rem;border-radius:12px;box-shadow:0 2px 8px #0001;">
+        <img src="${item.produto.img}" alt="${item.produto.nome}" style="width:80px;height:80px;object-fit:contain;border-radius:8px;">
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:1.1rem;color:#111;">${item.produto.nome}</div>
+          <div style="color:#555;font-size:0.98rem;">${item.produto.desc}</div>
+          ${item.tamanho ? `<div style="color:#333;font-size:0.95rem;">Tamanho: <b>${item.tamanho}</b></div>` : ''}
+        </div>
+        <div style="font-weight:900;font-size:1.2rem;color:#111;">${item.produto.preco}</div>
+        <button onclick="removerDoCarrinho(${idx})" style="background:#fff;color:#d00;border:1.5px solid #d00;border-radius:8px;padding:0.4rem 1rem;cursor:pointer;font-weight:700;">Remover</button>
+      </div>
+    `;
+  }).join('') + `
+    <div style="text-align:right;font-size:1.3rem;font-weight:900;margin-top:1.5rem;">
+      Total: R$ ${total.toFixed(2).replace('.', ',')}
+    </div>
+  `;
+
+  document.getElementById('btnFinalizarCompra').onclick = () => {
+    const user = sessionStorage.getItem('usuarioLogado');
+    if (!user) {
+      acaoAposLogin = () => {
+        finalizarCompra();
+      };
+      abrirLoginModal();
+    } else {
+      finalizarCompra();
+    }
+  };
+
+  document.getElementById('btnLimparCarrinho').onclick = () => {
+    if (confirm('Deseja realmente limpar o carrinho?')) {
+      carrinho = [];
+      salvarCarrinho();
+      renderCarrinho();
+    }
+  };
+}
+
+// Função para remover item do carrinho
+function removerDoCarrinho(idx) {
+  carrinho.splice(idx, 1);
+  salvarCarrinho();
+  renderCarrinho();
+}
+
+// Função para finalizar compra
+function finalizarCompra() {
+  carrinho = [];
+  salvarCarrinho();
+  renderCarrinho();
+  const msg = document.getElementById('msgCarrinho');
+  msg.textContent = 'Compra realizada com sucesso! Obrigado por comprar na InfinityPro Sports.';
+  msg.style.display = 'block';
+}
+
+// Adicione botão do carrinho na barra superior
+// Troque o botão Sacola por este:
+document.querySelector('#navigationHeader .acoes button[title="Sacola"]').onclick = function() {
+  renderCarrinho();
+};
+
+// --- INTEGRAÇÃO COM O RESTANTE DA LOJA ---
+// Para adicionar ao carrinho, troque o alert de "Compra realizada" por adicionarAoCarrinho(produto, tamanhoSelecionado)
+// Exemplo para o botão comprar na página de produto:
+if (document.getElementById('btnComprarProduto')) {
+  document.getElementById('btnComprarProduto').onclick = () => {
+    if (!selecionado) {
+      alert('Selecione um tamanho antes de comprar!');
+      return;
+    }
+    adicionarAoCarrinho(produto, selecionado);
+  };
 }
   </script>
 </body>
