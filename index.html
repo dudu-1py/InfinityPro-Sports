@@ -516,7 +516,7 @@ header#navigationHeader {
         <input type="password" id="pass" placeholder="Senha" autocomplete="current-password" style="width:100%" />
         <button type="button" id="togglePass" aria-label="Mostrar senha">👁️</button>
       </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; width: 50%; margin-top: 0.5rem;">
+      <div style="display: contents; gap: 0.5rem; width: 50%; margin-top: 0.5rem;">
         <button id="btnLogin" style="width:50%;">Entrar</button>
         <button id="btnCriarConta" style="width:50%; background:#111; color:#fff;">Criar sua conta</button>
         <button id="btnRecuperarSenhaLogin" style="width:50%; background:#fff; color:#111; border:1.5px solid #111;">Esqueci minha senha</button>
@@ -1871,7 +1871,6 @@ document.querySelector('#navigationHeader .acoes button[title="Sacola"]').onclic
   renderCarrinho();
 };
 
-// --- INTEGRAÇÃO COM O RESTANTE DA LOJA ---
 // Para adicionar ao carrinho, troque o alert de "Compra realizada" por adicionarAoCarrinho(produto, tamanhoSelecionado)
 // Exemplo para o botão comprar na página de produto:
 if (document.getElementById('btnComprarProduto')) {
