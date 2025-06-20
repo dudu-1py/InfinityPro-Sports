@@ -20,6 +20,7 @@
       align-items: flex-start;
       padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 67%; /*escalado site */
     }
     #app {
   width: 100vw;
@@ -386,7 +387,7 @@ header#navigationHeader {
 }
 #navigationHeader .logo span {
   font-weight: 900;
-  font-size: 1.5rem;
+  font-size: 1.1rem; /* DIMINUI O TAMANHO DA LETRA DA LOGO */
   letter-spacing: 2px;
   color: #111;
 }
@@ -572,7 +573,7 @@ function gerarProdutos(baseProdutos, multiplicador) {
   return produtosMultiplicados;
 }
 
-// Produtos base (os 9 originais)
+// Produtos (unt=20)
 const produtosBase = [
   {
     nome: "Tênis Olympikus Quadra BR1 - Unissex",
@@ -629,15 +630,75 @@ const produtosBase = [
     img: "https://imgcentauro-a.akamaihd.net/1200x1200/99557502A2.jpg"
   },
   {
-    nome: "Calça Jogger Nike Sportswear Tech Fleece Masculina",
-    desc: "Estilo e conforto para o dia a dia.",
-    preco: "R$ 499,90",
-    img: "https://imgcentauro-a.akamaihd.net/1200x1200/99557502A2.jpg"
+    nome: "Tênis Adidas CourtJam Control",
+    desc: "Ideal para quadras rápidas, com suporte lateral reforçado.",
+    preco: "R$ 429,90",
+    img: "https://imgcentauro-a.akamaihd.net/1200x1200/97923401A2.jpg"
+  },
+  {
+    nome: "Tênis Asics Gel-Rocket 10 Feminino",
+    desc: "Amortecimento GEL e leveza para esportes indoor.",
+    preco: "R$ 389,90",
+    img: "https://imgcentauro-a.akamaihd.net/1200x1200/97923402A2.jpg"
+  },
+  {
+    nome: "Tênis Mizuno Wave Lightning Z6",
+    desc: "Performance e estabilidade para vôlei de alto nível.",
+    preco: "R$ 999,90",
+    img: "https://imgcentauro-a.akamaihd.net/1200x1200/97923403A2.jpg"
+  },
+  {
+    nome: "Tênis Infantil Olympikus Linear",
+    desc: "Conforto e durabilidade para os pequenos atletas.",
+    preco: "R$ 199,90",
+    img: "https://imgcentauro-a.akamaihd.net/1200x1200/97923404A2.jpg"
+  },
+  {
+    nome: "Camiseta Masculina Adidas Essentials",
+    desc: "Tecido leve e respirável para o dia a dia.",
+    preco: "R$ 129,90",
+    img: "https://imgcentauro-a.akamaihd.net/1200x1200/97923405A2.jpg"
+  },
+  {
+    nome: "Shorts Nike Dri-FIT Academy",
+    desc: "Tecnologia Dri-FIT para manter o corpo seco durante o treino.",
+    preco: "R$ 99,90",
+    img: "https://imgcentauro-a.akamaihd.net/1200x1200/97923406A2.jpg"
+  },
+  {
+    nome: "Tênis Olympikus Voa Unissex",
+    desc: "Leveza e amortecimento para corridas e caminhadas.",
+    preco: "R$ 299,90",
+    img: "https://imgcentauro-a.akamaihd.net/1200x1200/97923407A2.jpg"
+  },
+  {
+    nome: "Tênis Asics Gel-Excite 9 Feminino",
+    desc: "Ideal para treinos diários, com ótimo custo-benefício.",
+    preco: "R$ 349,90",
+    img: "https://imgcentauro-a.akamaihd.net/1200x1200/97923408A2.jpg"
+  },
+  {
+    nome: "Tênis Nike Revolution 6 Next Nature Infantil",
+    desc: "Sustentável e confortável para crianças.",
+    preco: "R$ 219,90",
+    img: "https://imgcentauro-a.akamaihd.net/1200x1200/97923409A2.jpg"
+  },
+    {
+    nome: "Tênis Asics Gel-Excite 9 Feminino",
+    desc: "Ideal para treinos diários, com ótimo custo-benefício.",
+    preco: "R$ 349,90",
+    img: "https://imgcentauro-a.akamaihd.net/1200x1200/97923408A2.jpg"
+  },
+  {
+    nome: "Tênis Nike Revolution 6 Next Nature Infantil",
+    desc: "Sustentável e confortável para crianças.",
+    preco: "R$ 219,90",
+    img: "https://imgcentauro-a.akamaihd.net/1200x1200/97923409A2.jpg"
   }
 ];
 
-// Multiplicador
-const produtos = gerarProdutos(produtosBase, 4);
+// use apenas os produtosBase
+const produtos = produtosBase; 
 
     const app = document.getElementById('app');
 
